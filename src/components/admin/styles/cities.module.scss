@@ -1,0 +1,38 @@
+.table {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .row {
+    width: 100%;
+    padding: 10px;
+    transition: background-color 1.5s ease;
+
+
+    &.half {
+      width: 50%;
+      text-align: center;
+    }
+    &:hover {
+      background-color: #ece8e8;
+      cursor: pointer;
+    }
+  }
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  padding-bottom: 10px;
+  justify-content: space-between;
+}
+
+.empty {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: bold;
+}
