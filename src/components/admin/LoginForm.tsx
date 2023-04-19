@@ -20,7 +20,7 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post("/api/auth/login", { username, password }).then(res => {
+        axios.post("auth/login", { username, password }).then(res => {
             localStorage.setItem("token", res.data.token)
             router.push('/admin', '/admin', { locale: 'lv' });
         }). catch(err => {

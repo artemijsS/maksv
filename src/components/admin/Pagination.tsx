@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
-export const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => {
+export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     const [activePage, setActivePage] = useState(currentPage)
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
     const pagesToShow = 5
 
     const handleClick = (page) => {
@@ -34,7 +33,7 @@ export const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange
         ))
     }
 
-    if (!totalItems) {
+    if (!totalPages) {
         return null
     }
 

@@ -6,7 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { appWithTranslation } from 'next-i18next';
 import Cookies from 'js-cookie';
+import axios from "axios";
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL
 
 const App = ({ Component, pageProps }: AppProps) => {
     const router = useRouter();

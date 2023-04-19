@@ -1,65 +1,109 @@
 import React, { useEffect, useState } from "react";
+import styles from '../styles/admin.module.scss';
 import { toast } from "react-toastify";
 import axios from "axios";
 
-interface City {
-    lv: string,
-    ru: string,
-    en: string,
-}
 interface District {
-    lv: string,
-    ru: string,
-    en: string,
+    name: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    _id?: string
+}
+interface City {
+    city: {
+        lv: string
+        ru: string,
+        en: string,
+    },
+    _id?: string,
+    districts: District[]
 }
 
-export default function CityAdd({ onCloseClick, onSave }) {
+export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
+
+    const [loading, setLoading] = useState(true);
+    const [city, setCity] = useState<City>({
+        city: {
+            lv: '',
+            ru: '',
+            en: '',
+        },
+        _id: cityId,
+        districts: [{ name: {lv: '', ru: '', en: ''}, _id: '' }]
+    });
 
 
-    const [city, setCity] = useState<City>({lv: '', en: '', ru: ''})
+    useEffect(() => {
+        axios.get(`city/info?id=${cityId}`).then(res => {
+            setCity({
+                ...city,
+                city: {
+                    lv: res.data.name.lv,
+                    ru: res.data.name.ru,
+                    en: res.data.name.en
+                },
+                districts: res.data.districts
+            })
+            setLoading(false);
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
+        })
+    }, [])
 
-    const [districts, setDistricts] = useState<District[]>([{lv: '', en: '', ru: ''}]);
 
-    const addDistrict = () => {
-        setDistricts([...districts, {lv: '', en: '', ru: ''}]);
-    };
+    const handleDistrictChange = (event, index, lan) => {
+        const newDistricts = [...city.districts];
+        newDistricts[index].name[lan] = event.target.value;
+        setCity({ ...city, districts: newDistricts});
+    }
 
     const removeDistrict = (index) => {
-        if (districts.length === 1) {
+        if (city.districts.length === 1) {
             toast.error("You need to enter at least one district of this city!")
             return;
         }
-        const newDistricts = [...districts];
+        const newDistricts = [...city.districts];
         newDistricts.splice(index, 1);
-        setDistricts(newDistricts);
+        setCity({ ...city, districts: newDistricts });
     }
 
-    const handleDistrictChange = (event, index, lan) => {
-        const newDistricts = [...districts];
-        newDistricts[index][lan] = event.target.value;
-        setDistricts(newDistricts);
-    };
+    const addDistrict = () => {
+        setCity({ ...city, districts: [...city.districts, { name: { lv: '', ru: '', en: '' }}] })
+    }
 
-    const handleSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('city', { city, districts }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(_res => {
-            toast.success("City added!");
-            onSave();
+        axios.post('city/info', city, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(res => {
+            toast.success("City updated!")
+            onUpdate();
             onCloseClick();
-        }).catch(err => {
-            toast.error(err.response.data.message || "Error occurred" );
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
         })
-    };
+    }
+
+    if (loading)
+        return (
+            <>
+                <div className="fixed inset-0 bg-gray-900 opacity-50"/>
+                <div className="fixed inset-0 flex items-center justify-center">
+                    <div className={styles.spinner} />
+                </div>
+            </>
+        )
+
 
     return (
         <>
             <div className="fixed inset-0 bg-gray-900 opacity-50"/>
             <div className="fixed inset-0 flex items-center justify-center">
                 <div className="bg-white rounded-lg shadow-lg p-8 w-full" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
-                    <div className="text-lg font-medium mb-4">Add new city & district</div>
+                    <div className="text-lg font-medium mb-4">Update city & districts</div>
                     <div className="mb-6">
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={onSubmit}>
                             <div className="block text-gray-700 font-bold mb-2">City:</div>
                             <div className="mb-4 flex justify-between gap-3">
                                 <div className={"flex-1"}>
@@ -70,8 +114,8 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                         id="cityName-lv"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder="Enter city name LV"
-                                        value={city.lv}
-                                        onChange={(e) => setCity({...city, lv: e.target.value})}
+                                        value={city.city.lv}
+                                        onChange={(e) => setCity({...city, city: { ...city.city, lv: e.target.value}})}
                                     />
                                 </div>
                                 <div className={"flex-1"}>
@@ -82,8 +126,8 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                         id="cityName-ru"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder="Enter city name RU"
-                                        value={city.ru}
-                                        onChange={(e) => setCity({...city, ru: e.target.value})}
+                                        value={city.city.ru}
+                                        onChange={(e) => setCity({...city, city: { ...city.city, ru: e.target.value}})}
                                     />
                                 </div>
                                 <div className={"flex-1"}>
@@ -94,13 +138,13 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                         id="cityName-en"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder="Enter city name EN"
-                                        value={city.en}
-                                        onChange={(e) => setCity({...city, en: e.target.value})}
+                                        value={city.city.en}
+                                        onChange={(e) => setCity({...city, city: { ...city.city, en: e.target.value}})}
                                     />
                                 </div>
                             </div>
                             <hr className={"mt-5 mb-6"}/>
-                            {districts.map((district, index) => (
+                            {city.districts.map((district, index) => (
                                 <div className="relative" key={index}>
                                     <div className="block text-gray-700 font-bold mb-2">District:</div>
                                     <div className="mb-4 flex justify-between gap-3">
@@ -111,7 +155,7 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                                 id={`district-${index}-lv`}
                                                 name={`district-${index}-lv`}
                                                 placeholder="Enter district name LV"
-                                                value={district.lv}
+                                                value={district.name.lv}
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10"
                                                 onChange={(event) => handleDistrictChange(event, index, "lv")}
                                             />
@@ -123,7 +167,7 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                                 id={`district-${index}-ru`}
                                                 name={`district-${index}-ru`}
                                                 placeholder="Enter district name RU"
-                                                value={district.ru}
+                                                value={district.name.ru}
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10"
                                                 onChange={(event) => handleDistrictChange(event, index, "ru")}
                                             />
@@ -135,7 +179,7 @@ export default function CityAdd({ onCloseClick, onSave }) {
                                                 id={`district-${index}-en`}
                                                 name={`district-${index}-en`}
                                                 placeholder="Enter district name EN"
-                                                value={district.en}
+                                                value={district.name.en}
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10"
                                                 onChange={(event) => handleDistrictChange(event, index, "en")}
                                             />

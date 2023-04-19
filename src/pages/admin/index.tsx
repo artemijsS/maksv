@@ -22,7 +22,7 @@ export default function Index() {
         if (!token) {
             router.push('/admin/login', '/admin/login', { locale: 'lv' });
         } else {
-            axios.post("api/auth/adminCheck", { token }).then(_res => {
+            axios.post("auth/adminCheck", { token }).then(_res => {
                 setLoading(false);
             }).catch(_err => {
                 toast.error("Please renew session!")
