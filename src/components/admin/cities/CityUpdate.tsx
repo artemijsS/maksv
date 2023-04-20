@@ -64,25 +64,46 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
             toast.error("You need to enter at least one district of this city!")
             return;
         }
-        const newDistricts = [...city.districts];
-        newDistricts.splice(index, 1);
-        setCity({ ...city, districts: newDistricts });
+
+
+        if (confirm("Do you really want to delete " + city.districts[index].name.lv + " district?")) {
+            axios.delete(`city/district?id=${city.districts[index]._id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(_res => {
+                toast.success("District deleted!")
+                const newDistricts = [...city.districts];
+                newDistricts.splice(index, 1);
+                setCity({ ...city, districts: newDistricts });
+            }, err => {
+                toast.error(err.response.data.message || "Error occurred")
+            })
+        }
     }
 
     const addDistrict = () => {
-        setCity({ ...city, districts: [...city.districts, { name: { lv: '', ru: '', en: '' }}] })
+        setCity({ ...city, districts: [...city.districts, { name: { lv: '', ru: '', en: '' } }] })
     }
 
     const onSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('city/info', city, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(res => {
+        axios.post('city/info', city, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(_res => {
             toast.success("City updated!")
             onUpdate();
             onCloseClick();
         }, err => {
             toast.error(err.response.data.message || "Error occurred")
         })
+    }
+
+    const deleteCity = () => {
+        if (confirm("Do you really want to delete " + city.city.lv + " city?")) {
+            axios.delete(`city/info?id=${city._id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(_res => {
+                toast.success(city.city.lv + " city deleted!")
+                onUpdate();
+                onCloseClick();
+            }, err => {
+                toast.error(err.response.data.message || "Error occurred")
+            })
+        }
     }
 
     if (loading)
@@ -99,8 +120,11 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
     return (
         <>
             <div className="fixed inset-0 bg-gray-900 opacity-50"/>
-            <div className="fixed inset-0 flex items-center justify-center">
-                <div className="bg-white rounded-lg shadow-lg p-8 w-full" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
+            <div className="fixed inset-0 flex items-center justify-center z-10">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full relative" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
+                    <svg onClick={deleteCity} className={styles.delete} xmlns="http://www.w3.org/2000/svg" fill={"none"} width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/>
+                    </svg>
                     <div className="text-lg font-medium mb-4">Update city & districts</div>
                     <div className="mb-6">
                         <form onSubmit={onSubmit}>

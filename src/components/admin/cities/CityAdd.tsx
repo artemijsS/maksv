@@ -55,7 +55,7 @@ export default function CityAdd({ onCloseClick, onSave }) {
     return (
         <>
             <div className="fixed inset-0 bg-gray-900 opacity-50"/>
-            <div className="fixed inset-0 flex items-center justify-center">
+            <div className="fixed inset-0 flex items-center justify-center z-10">
                 <div className="bg-white rounded-lg shadow-lg p-8 w-full" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
                     <div className="text-lg font-medium mb-4">Add new city & district</div>
                     <div className="mb-6">

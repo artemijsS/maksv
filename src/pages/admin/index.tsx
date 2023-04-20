@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/admin/Loader"
 import Cities from "@/components/admin/cities/Cities"
+import Estate from "@/components/admin/estate/Estate"
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -47,7 +48,7 @@ export default function Index() {
                 <h1 className="text-3xl font-bold mb-8">Maksv Admin Panel</h1>
 
                 <Cities />
-
+                <Estate />
 
             </div>
         </div>

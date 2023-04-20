@@ -16,6 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return await cityInfoGet(req, res);
         } else if (req.method === 'POST') {
             return await cityInfoUpdate(req, res);
+        } else if (req.method === 'DELETE') {
+            return await cityInfoDelete(req, res);
         } else {
             return res.status(405).json({ message: 'Method not allowed' });
         }
@@ -77,7 +79,7 @@ const cityInfoUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
             throw "user is not admin";
 
         const city = req.body;
-        console.log(city)
+
         // VALIDATION
         if (!city)
             return res.status(400).json({ message: "Invalid data" });
@@ -126,6 +128,38 @@ const cityInfoUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         return res.status(200).json(updatedCity)
+
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const cityInfoDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+    const token = req.headers.authorization.split(" ")[1];
+
+    if (!token)
+        return res.status(201).json({ message: "No Auth" });
+
+    try {
+        await dbConnect();
+
+        const user = await jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!user.isAdmin)
+            throw "user is not admin";
+
+        const id = req.query.id;
+
+        // VALIDATION
+        if (!id || id === "undefined") {
+            return res.status(400).json({ message: "Invalid data" });
+        }
+
+        await District.deleteMany({ city: id })
+        await City.findOneAndDelete({ _id: id })
+
+        return res.status(200).json({ message: "City deleted!" })
 
     } catch (e) {
         console.log(e)

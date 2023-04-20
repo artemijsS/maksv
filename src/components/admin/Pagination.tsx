@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
-    const [activePage, setActivePage] = useState(currentPage)
+export const Pagination = ({ totalPages, activePage, onPageChange }) => {
     const pagesToShow = 5
 
     const handleClick = (page) => {
-        setActivePage(page)
         onPageChange(page)
     }
 

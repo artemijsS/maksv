@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from '../styles/admin.module.scss';
 import { Pagination } from '../Pagination';
-import CityAdd from './CityAdd';
-import CityUpdate from './CityUpdate';
+import CityAdd from '../cities/CityAdd';
+import CityUpdate from '../cities/CityUpdate';
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -33,8 +33,8 @@ export default function Cities() {
     }, [pagination.page, search, forceUpdate])
 
     return (
-        <section className="bg-white rounded-lg w-full container mx-auto px-8">
-            <h1 className="w-full text-center text-2xl font-bold pt-8 pb-3">Cities & Districts</h1>
+        <section className="bg-white rounded-lg w-full container mx-auto px-8 mt-10">
+            <h1 className="w-full text-center text-2xl font-bold pt-8 pb-3">Estates</h1>
             <div className="relative mb-6">
                 <input
                     type="text"
@@ -61,7 +61,7 @@ export default function Cities() {
                 <div className={styles.table}>
                     {cities.length > 0 ?
                         cities.map((city, i) =>
-                            <div className={styles.row + " " + styles.half} key={i} onClick={() => setIsOpenUp(city._id)}>
+                            <div className={styles.row} key={i} onClick={() => setIsOpenUp(city._id)}>
                                 <div className={"text-black font-bold text-1xl"}>{city.name.lv}</div>
                             </div>
                         )
