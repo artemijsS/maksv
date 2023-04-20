@@ -1,0 +1,396 @@
+import React, { useEffect, useState } from "react";
+import styles from '../styles/admin.module.scss';
+import Upload from '../../service/Upload';
+import { toast } from "react-toastify";
+import GoogleMapReact from 'google-map-react';
+import axios from "axios";
+
+
+export default function EstateAdd({ onCloseClick, onSave }) {
+
+
+    const [estate, setEstate] = useState<Estate>(emptyEstate)
+    const [cities, setCities] = useState<City[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }])
+    const [districts, setDistricts] = useState<District[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }])
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (!estate.location.lat && !estate.location.lng) {
+            toast.error("Click location on map!")
+            return;
+        }
+        console.log(estate)
+    };
+
+    useEffect(() => {
+        axios.get('city?size=10000').then(res => {
+            setCities(res.data.data);
+        }, _err => {
+           toast.error("Error with loading cities, try again");
+           onCloseClick();
+        })
+    }, [])
+
+    const getDistricts = (cityId: string) => {
+        axios.get(`city/district?city=${cityId}`).then(res => {
+            setDistricts(res.data);
+        }, _err => {
+            toast.error("Error with loading districts, try again");
+            onCloseClick();
+        })
+    }
+
+    const changeType = (e) => {
+        const type = e.target.value;
+        if (type === "1") {
+            setEstate({...estate, type: { lv: "Mājas", ru: "Дома", en: "Houses" }})
+        } else if (type === "2") {
+            setEstate({...estate, type: { lv: "Dzīvokļi", ru: "Квартиры", en: "Flats" }})
+        } else {
+            setEstate({...estate, type: { lv: "Zeme", ru: "Земля", en: "Land" }})
+        }
+    }
+
+    const imagesChange = (files) => {
+        setEstate({ ...estate, images: files })
+    }
+
+    return (
+        <>
+            <div className="fixed inset-0 bg-gray-900 opacity-50" style={{ zIndex: 1 }}/>
+            <div className="fixed inset-0 flex items-center justify-center z-10">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
+                    <div className="text-lg font-medium mb-4">Add new estate</div>
+                    <div className="mb-6">
+                        <form onSubmit={handleSubmit}>
+
+                            <div className="block text-gray-700 font-bold mb-2">Name:</div>
+                            <div className="mb-4 flex justify-between gap-3">
+                                <div className={"flex-1"}>
+                                    <input
+                                        required={true}
+                                        type="text"
+                                        name="estateName-lv"
+                                        id="estateName-lv"
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter estate name LV"
+                                        value={estate.name.lv}
+                                        onChange={(e) => setEstate({...estate, name: { ...estate.name, lv: e.target.value }})}
+                                    />
+                                </div>
+                                <div className={"flex-1"}>
+                                    <input
+                                        required={true}
+                                        type="text"
+                                        name="estateName-ru"
+                                        id="estateName-ru"
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter estate name RU"
+                                        value={estate.name.ru}
+                                        onChange={(e) => setEstate({...estate, name: { ...estate.name, ru: e.target.value }})}
+                                    />
+                                </div>
+                                <div className={"flex-1"}>
+                                    <input
+                                        required={true}
+                                        type="text"
+                                        name="estateName-en"
+                                        id="estateName-en"
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter estate name EN"
+                                        value={estate.name.en}
+                                        onChange={(e) => setEstate({...estate, name: { ...estate.name, en: e.target.value }})}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="block text-gray-700 font-bold mb-2">Description:</div>
+                            <div className="mb-4 flex flex-col justify-between gap-3">
+                                <div className={"flex-1"}>
+                                    <textarea
+                                        required={true}
+                                        name="estateDescription-lv"
+                                        id="estateDescription-lv"
+                                        className="flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        style={{ minHeight: "100px" }}
+                                        placeholder="Enter estate description LV"
+                                        value={estate.description.lv}
+                                        onChange={(e) => setEstate({...estate, description: { ...estate.description, lv: e.target.value }})}
+                                    />
+                                </div>
+                                <div className={"flex-1"}>
+                                    <textarea
+                                        required={true}
+                                        name="estateDescription-ru"
+                                        id="estateDescription-ru"
+                                        className="flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        style={{ minHeight: "100px" }}
+                                        placeholder="Enter estate description RU"
+                                        value={estate.description.ru}
+                                        onChange={(e) => setEstate({...estate, description: { ...estate.description, ru: e.target.value }})}
+                                    />
+                                </div>
+                                <div className={"flex-1"}>
+                                    <textarea
+                                        required={true}
+                                        name="estateDescription-en"
+                                        id="estateDescription-en"
+                                        className="flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        style={{ minHeight: "100px" }}
+                                        placeholder="Enter estate description EN"
+                                        value={estate.description.en}
+                                        onChange={(e) => setEstate({...estate, description: { ...estate.description, en: e.target.value }})}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="block text-gray-700 font-bold mb-2">Price:</div>
+                            <input
+                                required={true}
+                                type={"number"}
+                                min={0}
+                                name="estatePrice"
+                                id="estatePrice"
+                                className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Enter estate price"
+                                value={estate.price}
+                                onChange={(e) => setEstate({...estate, price: e.target.value })}
+                            />
+
+                            <div className="block text-gray-700 font-bold mb-2">Rent?</div>
+                            <div className={styles.toggle}>
+                                <label className={styles.switch}>
+                                    <input type="checkbox" defaultChecked={estate.rent} onChange={() => setEstate({...estate, rent: !estate.rent})}/>
+                                    <span className={styles.slider + " " + styles.round}/>
+                                </label>
+                            </div>
+
+                            <div className="mt-4 block text-gray-700 font-bold mb-2">City:</div>
+                            <div className="relative inline-block w-full">
+                                <select
+                                    required={true}
+                                    name="estateCity"
+                                    id="estateCity"
+                                    className="block appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                    value={estate.city}
+                                    onChange={(e) => {setEstate({...estate, city: e.target.value}); getDistricts(e.target.value)}}
+                                >
+                                    <option value="" disabled>Select estate city</option>
+                                    {
+                                        cities.map((city, i) => (
+                                            <option value={city._id} key={i}>{city.name.lv}</option>
+                                        ))
+                                    }
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.14 7.88l-4.95 4.95a1.5 1.5 0 01-2.12 0l-4.95-4.95a1.5 1.5 0 012.12-2.12L10 9.77l3.05-3.05a1.5 1.5 0 012.12 2.12z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div className="mt-4 block text-gray-700 font-bold mb-2">District:</div>
+                            <div className="relative inline-block w-full mb-4">
+                                <select
+                                    required={true}
+                                    name="estateDistrict"
+                                    id="estateDistrict"
+                                    className="block disabled:cursor-not-allowed appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                    value={estate.district}
+                                    onChange={(e) => setEstate({...estate, district: e.target.value})}
+                                    disabled={!estate.city}
+                                >
+                                    <option value="" disabled>Select estate district</option>
+                                    {
+                                        districts.map((district, i) => (
+                                            <option value={district._id} key={i}>{district.name.lv}</option>
+                                        ))
+                                    }
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.14 7.88l-4.95 4.95a1.5 1.5 0 01-2.12 0l-4.95-4.95a1.5 1.5 0 012.12-2.12L10 9.77l3.05-3.05a1.5 1.5 0 012.12 2.12z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div className="block text-gray-700 font-bold mb-2">Street:</div>
+                            <input
+                                required={true}
+                                type="text"
+                                name="estateStreet"
+                                id="estateStreet"
+                                className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Enter estate street"
+                                value={estate.street}
+                                onChange={(e) => setEstate({...estate, street: e.target.value })}
+                            />
+
+                            <div style={{ height: '400px', width: '100%' }} className={"mt-4"}>
+                                <GoogleMapReact
+                                    bootstrapURLKeys={{ key: "" }}
+                                    defaultCenter={{
+                                        lat: 56.949802,
+                                        lng: 24.175352
+                                    }}
+                                    defaultZoom={10}
+                                    onClick={({ lat, lng }) => {setEstate({...estate, location: { lat, lng }})}}
+                                    options={{fullscreenControl: false}}
+                                >
+                                    {estate.location.lat && estate.location.lng &&
+                                    (<Marker lng={estate.location.lng} lat={estate.location.lat} text="My Marker"/>)
+                                    }
+                                </GoogleMapReact>
+                            </div>
+
+                            <div className="block text-gray-700 font-bold mt-6">Images:</div>
+                            <Upload onFileChange={(files) => imagesChange(files)} />
+
+                            <hr className={"mt-5 mb-6"}/>
+
+                            <div className="relative inline-block w-full mb-4">
+                                <select
+                                    required={true}
+                                    name="estateType"
+                                    id="estateType"
+                                    className="block disabled:cursor-not-allowed appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                    onChange={(e) => changeType(e)}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>Select estate type</option>
+                                    <option value="1">House</option>
+                                    <option value="2">Flat</option>
+                                    <option value="3">Land</option>
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.14 7.88l-4.95 4.95a1.5 1.5 0 01-2.12 0l-4.95-4.95a1.5 1.5 0 012.12-2.12L10 9.77l3.05-3.05a1.5 1.5 0 012.12 2.12z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    type="button"
+                                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded ml-4"
+                                    onClick={() => onCloseClick()}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+interface Estate {
+    name: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    description: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    price: number,
+    rent: boolean,
+    city: string,
+    district: string,
+    street: string,
+    location: {
+        lat: number,
+        lng: number,
+    },
+    images: [],
+    type: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+
+    rooms?: number,
+    livingArea?: number,
+    floor?: number,
+    series?: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    condition?: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    landArea?: number,
+    cadastralNumber?: string
+}
+
+const emptyEstate: Estate = {
+    name: {
+        lv: '',
+        ru: '',
+        en: '',
+    },
+    description: {
+        lv: '',
+        ru: '',
+        en: '',
+    },
+    price: 0,
+    rent: false,
+    city: '',
+    district: '',
+    street: '',
+    location: {
+        lat: 0,
+        lng: 0,
+    },
+    images: [],
+    type: {
+        lv: '',
+        ru: '',
+        en: '',
+    }
+}
+
+interface City {
+    _id: string,
+    name: {
+        lv: string,
+        ru: string,
+        en: string
+    }
+}
+
+interface District {
+    _id: string,
+    name: {
+        lv: string,
+        ru: string,
+        en: string
+    }
+}
+
+const Marker = () => (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "20px", height: "20px", color: "pink", position: "absolute", top: "-10px", left: "-10px" }}>
+        <svg width="20" height="20" fill={"red"}>
+            <circle cx="10" cy="10" r="10" />
+        </svg>
+    </div>
+);
+

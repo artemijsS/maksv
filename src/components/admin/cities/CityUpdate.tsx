@@ -109,7 +109,7 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
     if (loading)
         return (
             <>
-                <div className="fixed inset-0 bg-gray-900 opacity-50"/>
+                <div className="fixed inset-0 bg-gray-900 opacity-50" style={{ zIndex: 1 }}/>
                 <div className="fixed inset-0 flex items-center justify-center">
                     <div className={styles.spinner} />
                 </div>
@@ -119,7 +119,7 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
 
     return (
         <>
-            <div className="fixed inset-0 bg-gray-900 opacity-50"/>
+            <div className="fixed inset-0 bg-gray-900 opacity-50" style={{ zIndex: 1 }}/>
             <div className="fixed inset-0 flex items-center justify-center z-10">
                 <div className="bg-white rounded-lg shadow-lg p-8 w-full relative" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
                     <svg onClick={deleteCity} className={styles.delete} xmlns="http://www.w3.org/2000/svg" fill={"none"} width="24" height="24" viewBox="0 0 24 24">

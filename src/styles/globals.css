@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.dragging {
+    background-color: #eeeeee;
+}
+.file_container {
+    width: 100%;
+}

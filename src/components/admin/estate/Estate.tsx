@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from '../styles/admin.module.scss';
 import { Pagination } from '../Pagination';
-import CityAdd from '../cities/CityAdd';
+import EstateAdd from './EstateAdd';
 import CityUpdate from '../cities/CityUpdate';
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -23,19 +23,19 @@ export default function Cities() {
 
 
     useEffect(() => {
-        axios.get(`city?size=${pagination.size}&page=${pagination.page}&search=${search}`).then(res => {
+        axios.get(`estate?size=${pagination.size}&page=${pagination.page}&search=${search}`).then(res => {
             setPagination({ ...pagination, pages: res.data.pages })
             setCities(res.data.data)
             setLoading(false)
         }, _err => {
-            toast.error("Error occurred with loading cities")
+            toast.error("Error occurred with loading estates")
         })
     }, [pagination.page, search, forceUpdate])
 
     return (
         <section className="bg-white rounded-lg w-full container mx-auto px-8 mt-10">
             <h1 className="w-full text-center text-2xl font-bold pt-8 pb-3">Estates</h1>
-            <div className="relative mb-6">
+            <div className="relative mb-6 z-0">
                 <input
                     type="text"
                     className="block w-full h-full py-2 pr-4 pl-8 text-sm leading-5 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:shadow-outline-blue focus:border-blue-300 focus:text-gray-900 sm:text-sm sm:leading-5 opacity-100"
@@ -85,7 +85,7 @@ export default function Cities() {
                     onPageChange={(page) => setPagination({ ...pagination, page: page - 1 })}
                 />
             </div>
-            {isOpenAdd && <CityAdd onCloseClick={() => setIsOpenAdd(false)} onSave={() => {setForceUpdate(forceUpdate+1)}}/>}
+            {isOpenAdd && <EstateAdd onCloseClick={() => setIsOpenAdd(false)} onSave={() => {setForceUpdate(forceUpdate+1)}}/>}
             {isOpenUp && <CityUpdate onCloseClick={() => setIsOpenUp('')} cityId={isOpenUp} onUpdate={() => {setForceUpdate(forceUpdate+1)}}/>}
 
         </section>

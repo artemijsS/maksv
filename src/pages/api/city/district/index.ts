@@ -14,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (req.method === 'DELETE') {
             return await districtDelete(req, res);
+        } else if (req.method === 'GET') {
+            return await districtGet(req, res);
         } else {
             return res.status(405).json({ message: 'Method not allowed' });
         }
@@ -50,6 +52,30 @@ const districtDelete = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
         return res.status(200).json({ message: "District deleted!" })
+
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const districtGet = async (req: NextApiRequest, res: NextApiResponse) => {
+
+    try {
+        await dbConnect();
+
+        const city = req.query.city
+
+        if (city || city !== "undefined") {
+
+            const districts = await District.find({ city: city })
+
+            return res.status(200).json(districts)
+        }
+
+        const districts = await District.find()
+
+        return res.status(200).json(districts)
 
     } catch (e) {
         console.log(e)
