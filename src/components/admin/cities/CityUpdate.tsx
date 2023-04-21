@@ -49,6 +49,7 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
             setLoading(false);
         }, err => {
             toast.error(err.response.data.message || "Error occurred")
+            onCloseClick();
         })
     }, [])
 
@@ -61,7 +62,7 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
 
     const removeDistrict = (index) => {
         if (city.districts.length === 1) {
-            toast.error("You need to enter at least one district of this city!")
+            toast.error("You need to save at least one district of this city!")
             return;
         }
 

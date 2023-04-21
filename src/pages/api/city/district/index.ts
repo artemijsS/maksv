@@ -5,6 +5,7 @@ import dbConnect from '@/utils/dbConnect';
 import Page from '@/utils/page.util';
 import City from '@/models/City';
 import District from '@/models/District';
+import Estate from '@/models/Estate';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -47,9 +48,17 @@ const districtDelete = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(200).json({ message: "Nothing to delete, id is empty" })
         }
 
+        const estateCandidate = await Estate.findOne({ district: id });
+        if (estateCandidate)
+            return res.status(400).json({ message: "District is used in estate - " + estateCandidate.name.lv })
+
+        const district = await District.findById(id)
+        const cityDistrictCount = await District.find({ city: district.city }).countDocuments()
+
+        if (cityDistrictCount === 1)
+            return res.status(400).json({ message: "Please enter second district to remove first" })
 
         await District.findOneAndDelete({ _id: id })
-
 
         return res.status(200).json({ message: "District deleted!" })
 

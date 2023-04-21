@@ -29,6 +29,7 @@ export default function Cities() {
             setLoading(false)
         }, _err => {
             toast.error("Error occurred with loading estates")
+            setLoading(false)
         })
     }, [pagination.page, search, forceUpdate])
 

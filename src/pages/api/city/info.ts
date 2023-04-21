@@ -5,6 +5,7 @@ import dbConnect from '@/utils/dbConnect';
 import Page from '@/utils/page.util';
 import City from '@/models/City';
 import District from '@/models/District';
+import Estate from '@/models/Estate';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -55,6 +56,8 @@ const cityInfoGet = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         ]);
 
+        if (city.length === 0)
+            return res.status(400).json({ message: "There is no cty with this id" })
 
         return res.status(200).json(city[0]);
 
@@ -155,6 +158,11 @@ const cityInfoDelete = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!id || id === "undefined") {
             return res.status(400).json({ message: "Invalid data" });
         }
+
+        const estateCandidate = await Estate.findOne({ city: id }).populate('district')
+        if (estateCandidate)
+            return res.status(400).json({ message: "City is used in estate - " + estateCandidate.name.lv + " with district - " + estateCandidate.district.name.lv })
+
 
         await District.deleteMany({ city: id })
         await City.findOneAndDelete({ _id: id })

@@ -20,6 +20,8 @@ interface Estate extends Document {
         lat: number,
         lng: number,
     },
+    mainImage: string,
+    images: string[],
     type: {
         lv: string,
         ru: string,
@@ -104,6 +106,14 @@ const estateSchema: Schema = new Schema<Estate>({
             type: Number,
             required: true,
         },
+    },
+    mainImage: {
+        type: String,
+        required: true
+    },
+    images: {
+        type: [String],
+        required: true
     },
     type: {
         lv: {

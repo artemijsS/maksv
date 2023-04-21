@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styles from '../styles/admin.module.scss';
 import Upload from '../../service/Upload';
+import HouseInputs from './HouseInputs';
+import FLatInputs from './FLatInputs';
+import LandInputs from './LandInputs';
 import { toast } from "react-toastify";
 import GoogleMapReact from 'google-map-react';
 import axios from "axios";
+import FormData from "form-data";
 
 
 export default function EstateAdd({ onCloseClick, onSave }) {
 
 
-    const [estate, setEstate] = useState<Estate>(emptyEstate)
-    const [cities, setCities] = useState<City[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }])
-    const [districts, setDistricts] = useState<District[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }])
+    const [estate, setEstate] = useState<Estate>(emptyEstate);
+    const [cities, setCities] = useState<City[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }]);
+    const [districts, setDistricts] = useState<District[]>([{ _id: '', name: { lv: '', ru: '', en: '' } }]);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
 
     const handleSubmit = (event) => {
@@ -19,8 +25,29 @@ export default function EstateAdd({ onCloseClick, onSave }) {
         if (!estate.location.lat && !estate.location.lng) {
             toast.error("Click location on map!")
             return;
+        } else if (estate.images.length === 0) {
+            toast.error("Please select images")
+            return;
+        } else if (!estate.mainImage.file) {
+            toast.error("Please select main image")
+            return;
         }
-        console.log(estate)
+
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('mainImage', estate.mainImage.file);
+        for (let i = 0; i < estate.images.length; i++) {
+            formData.append(`image${i}`, estate.images[i].file);
+        }
+        formData.append('estate', JSON.stringify({...estate, images: [], mainImage: ''}));
+
+        axios.post("estate/add", formData, { headers: { "Content-Type": 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(res => {
+            toast.success("Estate added!")
+            onSave();
+            onCloseClick();
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred" );
+        }).finally(() => setLoading(false))
     };
 
     useEffect(() => {
@@ -42,14 +69,13 @@ export default function EstateAdd({ onCloseClick, onSave }) {
     }
 
     const changeType = (e) => {
-        const type = e.target.value;
-        if (type === "1") {
-            setEstate({...estate, type: { lv: "Mājas", ru: "Дома", en: "Houses" }})
-        } else if (type === "2") {
-            setEstate({...estate, type: { lv: "Dzīvokļi", ru: "Квартиры", en: "Flats" }})
-        } else {
-            setEstate({...estate, type: { lv: "Zeme", ru: "Земля", en: "Land" }})
-        }
+        const typeIndex = e.target.value;
+        setEstate({
+            ...estate,
+            type: { lv: types[typeIndex].lv, ru: types[typeIndex].ru, en: types[typeIndex].en },
+            rooms: '', floor: '', livingArea: '', landArea: '', cadastralNumber: '',
+            series: {lv: '', ru: '', en: ''}
+        })
     }
 
     const imagesChange = (files) => {
@@ -60,7 +86,15 @@ export default function EstateAdd({ onCloseClick, onSave }) {
         <>
             <div className="fixed inset-0 bg-gray-900 opacity-50" style={{ zIndex: 1 }}/>
             <div className="fixed inset-0 flex items-center justify-center z-10">
-                <div className="bg-white rounded-lg shadow-lg p-8 w-full" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full relative" style={{maxHeight: "90vh", maxWidth: "800px", overflow: "auto"}}>
+                    {loading &&
+                        <>
+                            <div className="fixed inset-0 bg-gray-900 opacity-50" style={{ zIndex: 20, height: "100%" }}/>
+                            <div className={"justify-center items-center fixed"} style={{ zIndex: 500, left: "50%", top: "50%", transform: "translate(-50%. -50%)" }}>
+                                <div className={styles.spinner}/>
+                            </div>
+                        </>
+                    }
                     <div className="text-lg font-medium mb-4">Add new estate</div>
                     <div className="mb-6">
                         <form onSubmit={handleSubmit}>
@@ -159,7 +193,7 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                             />
 
                             <div className="block text-gray-700 font-bold mb-2">Rent?</div>
-                            <div className={styles.toggle}>
+                            <div>
                                 <label className={styles.switch}>
                                     <input type="checkbox" defaultChecked={estate.rent} onChange={() => setEstate({...estate, rent: !estate.rent})}/>
                                     <span className={styles.slider + " " + styles.round}/>
@@ -246,6 +280,9 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                 </GoogleMapReact>
                             </div>
 
+                            <div className="block text-gray-700 font-bold mt-6">Main image:</div>
+                            <Upload one={true} onFileChange={(file) => setEstate({...estate, mainImage: file[0]})} />
+
                             <div className="block text-gray-700 font-bold mt-6">Images:</div>
                             <Upload onFileChange={(files) => imagesChange(files)} />
 
@@ -264,6 +301,8 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                     <option value="1">House</option>
                                     <option value="2">Flat</option>
                                     <option value="3">Land</option>
+                                    <option value="4">Factory</option>
+                                    <option value="5">Commercial object</option>
                                 </select>
                                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
@@ -273,17 +312,30 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                 </div>
                             </div>
 
-                            <div className="flex justify-end">
+                            {estate.type.lv === "Mājas" && <HouseInputs onParamChange={(house) => {
+                                setEstate({...estate, rooms: house.rooms, floor: house.floor, livingArea: house.livingArea, landArea: house.landArea})
+                            }}/>}
+                            {estate.type.lv === "Dzīvokļi" && <FLatInputs onParamChange={(flat) => {
+                                setEstate({...estate, rooms: flat.rooms, floor: flat.floor, livingArea: flat.livingArea, series: flat.series})
+                            }}/>}
+                            {(estate.type.lv === "Rūpnīca" || estate.type.lv === "Zeme" || estate.type.lv === "Komerciālais īpašums")
+                                && <LandInputs type={estate.type.en} onParamChange={(land) => {
+                                    setEstate({...estate, landArea: land.landArea, cadastralNumber: land.cadastralNumber})
+                            }}/>}
+
+                            <div className="flex justify-end relative">
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:cursor-not-allowed"
+                                    disabled={loading}
                                 >
                                     Save
                                 </button>
                                 <button
                                     type="button"
-                                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded ml-4"
+                                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded ml-4 disabled:cursor-not-allowed"
                                     onClick={() => onCloseClick()}
+                                    disabled={loading}
                                 >
                                     Cancel
                                 </button>
@@ -316,6 +368,7 @@ interface Estate {
         lat: number,
         lng: number,
     },
+    mainImage: {},
     images: [],
     type: {
         lv: string,
@@ -323,9 +376,9 @@ interface Estate {
         en: string,
     },
 
-    rooms?: number,
-    livingArea?: number,
-    floor?: number,
+    rooms?: string,
+    livingArea?: string,
+    floor?: string,
     series?: {
         lv: string,
         ru: string,
@@ -336,7 +389,7 @@ interface Estate {
         ru: string,
         en: string,
     },
-    landArea?: number,
+    landArea?: string,
     cadastralNumber?: string
 }
 
@@ -361,6 +414,7 @@ const emptyEstate: Estate = {
         lng: 0,
     },
     images: [],
+    mainImage: {},
     type: {
         lv: '',
         ru: '',
@@ -383,6 +437,34 @@ interface District {
         lv: string,
         ru: string,
         en: string
+    }
+}
+
+const types = {
+    '1': {
+        lv: "Mājas",
+        ru: "Дома",
+        en: "Houses"
+    },
+    '2': {
+        lv: "Dzīvokļi",
+        ru: "Квартиры",
+        en: "Flats"
+    },
+    '3': {
+        lv: "Zeme",
+        ru: "Земля",
+        en: "Land"
+    },
+    '4': {
+        lv: "Rūpnīca",
+        ru: "Завод",
+        en: "Factory"
+    },
+    '5': {
+        lv: "Komerciālais īpašums",
+        ru: "Коммерческий обьект",
+        en: "Commercial object"
     }
 }
 
