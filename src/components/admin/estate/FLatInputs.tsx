@@ -118,7 +118,7 @@ const emptyFlat = {
     }
 }
 
-const series = {
+export const series = {
     '1': {
         lv: "103",
         ru: "103",

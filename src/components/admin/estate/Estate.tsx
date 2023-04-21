@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from '../styles/admin.module.scss';
 import { Pagination } from '../Pagination';
-import EstateAdd from './EstateAdd';
-import CityUpdate from '../cities/CityUpdate';
+import EstateAdd, { Estate } from './EstateAdd';
+import EstateUpdate from './EstateUpdate';
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function Cities() {
 
-    const [cities, setCities] = useState([]);
+    const [estates, setEstates] = useState<IEstate[]>([]);
     const [search, setSearch] = useState('');
     const [forceUpdate, setForceUpdate] = useState(0);
     const [pagination, setPagination] = useState({
@@ -25,7 +25,7 @@ export default function Cities() {
     useEffect(() => {
         axios.get(`estate?size=${pagination.size}&page=${pagination.page}&search=${search}`).then(res => {
             setPagination({ ...pagination, pages: res.data.pages })
-            setCities(res.data.data)
+            setEstates(res.data.data)
             setLoading(false)
         }, _err => {
             toast.error("Error occurred with loading estates")
@@ -60,10 +60,15 @@ export default function Cities() {
             </div>
             {!loading ?
                 <div className={styles.table}>
-                    {cities.length > 0 ?
-                        cities.map((city, i) =>
-                            <div className={styles.row} key={i} onClick={() => setIsOpenUp(city._id)}>
-                                <div className={"text-black font-bold text-1xl"}>{city.name.lv}</div>
+                    {estates.length > 0 ?
+                        estates.map((estate, i) =>
+                            <div className={styles.row} key={i} onClick={() => {setIsOpenUp(i.toString())}}>
+                                <div className={"text-black font-bold text-1xl " + styles.info} style={{ width: "5%" }}><img src={estate.mainImage} alt={estate.name.lv +"MainImage"}/></div>
+                                <div className={"text-black font-bold text-1xl " + styles.info}>{estate.name.lv}</div>
+                                <div className={"text-black font-bold text-1xl " + styles.info} style={{ width: "7%" }}>{estate.type.en}</div>
+                                <div className={"text-black font-bold text-1xl " + styles.info} style={{ width: "5%" }}>{estate.rent ? "RENT" : "SELL"}</div>
+                                <div className={"text-black font-bold text-1xl " + styles.info} style={{ width: "8%" }}>{Number(estate.price.toFixed(2)).toLocaleString('en-US', { style: 'currency', currency: 'EUR' })}</div>
+                                <div className={"text-black font-bold text-1xl " + styles.info}>{estate.city.name.lv}</div>
                             </div>
                         )
                         :
@@ -87,10 +92,20 @@ export default function Cities() {
                 />
             </div>
             {isOpenAdd && <EstateAdd onCloseClick={() => setIsOpenAdd(false)} onSave={() => {setForceUpdate(forceUpdate+1)}}/>}
-            {isOpenUp && <CityUpdate onCloseClick={() => setIsOpenUp('')} cityId={isOpenUp} onUpdate={() => {setForceUpdate(forceUpdate+1)}}/>}
+            {isOpenUp && <EstateUpdate estateOld={estates[isOpenUp]} onCloseClick={() => setIsOpenUp('')} onUpdate={() => {setForceUpdate(forceUpdate+1)}}/>}
 
         </section>
 
     )
 }
 
+interface IEstate extends Estate {
+    _id: string,
+    city: {
+        name: {
+            lv: string,
+            ru: string,
+            en: string,
+        }
+    }
+}

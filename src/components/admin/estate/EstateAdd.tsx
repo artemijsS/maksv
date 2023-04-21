@@ -348,7 +348,7 @@ export default function EstateAdd({ onCloseClick, onSave }) {
     )
 }
 
-interface Estate {
+export interface Estate {
     name: {
         lv: string,
         ru: string,
@@ -393,7 +393,7 @@ interface Estate {
     cadastralNumber?: string
 }
 
-const emptyEstate: Estate = {
+export const emptyEstate: Estate = {
     name: {
         lv: '',
         ru: '',

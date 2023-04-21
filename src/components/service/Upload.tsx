@@ -3,7 +3,7 @@ import FileUpload from 'react-drag-n-drop-image';
 import styles from "../admin/styles/admin.module.scss";
 import { toast } from "react-toastify";
 
-const Upload = ({ onFileChange, one = false }) => {
+const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
     const [files, setFiles] = useState([]);
 
     const onChange = (file) => {
@@ -35,6 +35,11 @@ const Upload = ({ onFileChange, one = false }) => {
         onFileChange(files);
     }, [files])
 
+    useEffect(() => {
+        if (filesOld)
+            setFiles(filesOld)
+    }, [])
+
     return (
         <div className={one ? "flex gap-8 items-center" : ""}>
             <div className={"w-full border-dashed border-2 border-gray-400 bg-gray-100 rounded-md mt-2"} style={{ width: (one ? "40%" : "100%") }}>
@@ -52,7 +57,7 @@ const Upload = ({ onFileChange, one = false }) => {
                     files.map((file, i) => (
                         <div className={"relative"} style={{ width: (one ? "100%" : "30%"), height: "200px" }} key={i}>
                             <img style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                 src={file.preview}
+                                 src={file.preview ? file.preview : file}
                                  alt="image"
                             />
                             <div style={{ position: "absolute", bottom: "5px", right: "5px", width: "50px", height: "50px", borderRadius: "50%", backgroundColor: "grey", display: "flex", justifyContent: "center", alignItems: "center" }} >
