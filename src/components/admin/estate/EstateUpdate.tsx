@@ -20,7 +20,6 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
         axios.get(`estate/info?id=${estateOld._id}`).then(res => {
             setEstate(res.data)
             setLoading(false);
-            console.log(res.data)
         }, err => {
             toast.error(err.response.data.message || "Error occurred")
             onCloseClick();
@@ -35,8 +34,18 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
     }, [])
 
     const deleteEstate = () => {
-
+        if (confirm("Do you really want to delete " + estate.name.lv + "?")) {
+            setLoading(true);
+            axios.delete(`estate?id=${estate._id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(_res => {
+                toast.success("Estate deleted - " + estate.name.lv)
+                onUpdate();
+                onCloseClick();
+            }, err => {
+                toast.error(err.response.data.message || "Error occurred")
+            }).finally(() => setLoading(false));
+        }
     }
+
     const handleNameSubmit = (e) => {
         e.preventDefault();
     }
@@ -444,24 +453,12 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                         id="estateType"
                                         className="block disabled:cursor-not-allowed appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                                         onChange={(e) => changeSeries(e)}
-                                        defaultValue={""}
+                                        defaultValue={Object.keys(series).findIndex(key => series[key].en === estate.series?.en) + 1}
                                     >
                                         <option value="" disabled>Select flat series</option>
-                                        <option value="1">103</option>
-                                        <option value="2">104</option>
-                                        <option value="3">119</option>
-                                        <option value="4">467</option>
-                                        <option value="5">602</option>
-                                        <option value="6">Pre-war house</option>
-                                        <option value="7">Lithuanian project</option>
-                                        <option value="8">Small apartment</option>
-                                        <option value="9">Reconstructed</option>
-                                        <option value="10">Special project</option>
-                                        <option value="11">Stalin project</option>
-                                        <option value="12">Khrushchyovka</option>
-                                        <option value="13">Private house</option>
-                                        <option value="14">Czech project</option>
-                                        <option value="15">New</option>
+                                        {Object.keys(series).map((key, i) => (
+                                            <option value={key}>{series[key].en}</option>
+                                        ))}
                                     </select>
                                     <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
@@ -509,6 +506,119 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                     placeholder="Enter land cadastral number"
                                     value={estate.cadastralNumber}
                                     onChange={(e) => setEstate({...estate, cadastralNumber: e.target.value })}
+                                />
+                            </div>
+                            <div className="flex justify-end relative">
+                                <button
+                                    type="submit"
+                                    className="mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:cursor-not-allowed"
+                                    disabled={loading}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                        }
+                        {(estate.type.lv === "Bēniņi, pagrabi" ||
+                            estate.type.lv === "Darbnīcas, noliktavas, ražošanas telpas" ||
+                            estate.type.lv === "Autostāvvietas")
+                        &&
+                        <form onSubmit={handleNameSubmit}>
+                            <div className={"flex flex-col"}>
+                                <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="landArea"
+                                    id="landArea"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter land area"
+                                    value={estate.landArea}
+                                    onChange={(e) => setEstate({...estate, landArea: e.target.value })}
+                                />
+                            </div>
+                            <div className="flex justify-end relative">
+                                <button
+                                    type="submit"
+                                    className="mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:cursor-not-allowed"
+                                    disabled={loading}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                        }
+                        {(estate.type.lv === "Garāžas")
+                        &&
+                        <form onSubmit={handleNameSubmit}>
+                            <div className={"flex flex-col"}>
+                                <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                <div className="block text-gray-700 font-bold mb-2">Size:</div>
+                                <input
+                                    required={true}
+                                    type={"text"}
+                                    min={0}
+                                    name="landArea"
+                                    id="landArea"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter size - 300x200"
+                                    value={estate.size}
+                                    onChange={(e) => setEstate({...estate, size: e.target.value })}
+                                />
+                                <div className="block text-gray-700 font-bold mb-2">Gate height:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="landArea"
+                                    id="landArea"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter gate height"
+                                    value={estate.gateHeight}
+                                    onChange={(e) => setEstate({...estate, gateHeight: e.target.value })}
+                                />
+                            </div>
+                            <div className="flex justify-end relative">
+                                <button
+                                    type="submit"
+                                    className="mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:cursor-not-allowed"
+                                    disabled={loading}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                        }
+                        {(estate.type.lv === "Restorāni, kafejnīcas, biroji")
+                        &&
+                        <form onSubmit={handleNameSubmit}>
+                            <div className={"flex flex-col"}>
+                                <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="landArea"
+                                    id="landArea"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter land area"
+                                    value={estate.landArea}
+                                    onChange={(e) => setEstate({...estate, landArea: e.target.value })}
+                                />
+                                <div className="block text-gray-700 font-bold mb-2">Floor:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="floor"
+                                    id="floor"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter floor"
+                                    value={estate.floor}
+                                    onChange={(e) => setEstate({...estate, floor: e.target.value })}
                                 />
                             </div>
                             <div className="flex justify-end relative">

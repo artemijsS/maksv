@@ -42,7 +42,9 @@ interface Estate extends Document {
         en: string,
     },
     landArea?: number,
-    cadastralNumber?: string
+    cadastralNumber?: string,
+    size?: string,
+    gateHeight?: number,
 }
 
 const estateSchema: Schema = new Schema<Estate>({
@@ -165,6 +167,12 @@ const estateSchema: Schema = new Schema<Estate>({
         type: Number,
     },
     cadastralNumber: {
+        type: String
+    },
+    size: {
+        type: String
+    },
+    gateHeight: {
         type: String
     }
 },{ timestamps: true });

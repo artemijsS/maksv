@@ -61,6 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 estate.livingArea = Number(estate.livingArea)
                 estate.rooms = Number(estate.rooms)
                 estate.floor = Number(estate.floor)
+                estate.gateHeight = Number(estate.gateHeight)
 
                 if (type === "Houses") {
                     if (!validateHouse(estate))
@@ -74,12 +75,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     if (!validateLand(estate))
                         return res.status(400).json({ message: "Invalid land data" })
                     deleteForLand(estate);
+                } else if (type === "Attic, basement" || type === "Workshops, warehouses, production facilities" || type === "Parking") {
+                    if (!validateLandOnly(estate))
+                        return res.status(400).json({ message: "Invalid land only data" })
+                    deleteForLandOnly(estate);
+                } else if (type === "Garages") {
+                    if (!validateGarage(estate))
+                        return res.status(400).json({ message: "Invalid land only data" })
+                    deleteForGarage(estate);
+                } else if (type === "Restaurants, cafes, offices") {
+                    if (!validateCafe(estate))
+                        return res.status(400).json({ message: "Invalid land only data" })
+                    deleteForCafe(estate);
                 } else {
                     return res.status(400).json({ message: "Invalid estate type" })
                 }
 
 
-                const typedEstate: IHouse | IFlat | ILand = estate;
+                const typedEstate: IHouse | IFlat | ILand | ILandOnly | IGarage | ICafe = estate;
 
 
                 let mainImageUrl = '';
@@ -166,6 +179,20 @@ interface ILand extends ICommon {
     cadastralNumber: string
 }
 
+interface ILandOnly extends ICommon {
+    landArea: number,
+}
+
+interface IGarage extends ICommon {
+    size: string,
+    gateHeight: number,
+}
+
+interface ICafe extends ICommon {
+    landArea: number,
+    floor: number,
+}
+
 
 function validateCommon(common): boolean {
     const { name, description, price, rent, city, district, street, location, type } = common;
@@ -236,6 +263,36 @@ function validateLand(land): boolean {
     return true;
 }
 
+function validateLandOnly(land): boolean {
+    const { landArea } = land;
+
+    if (typeof landArea !== 'number' || landArea < 0) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateGarage(garage): boolean {
+    const { gateHeight, size } = garage;
+
+    if (typeof gateHeight !== 'number' || gateHeight < 0 || !size) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateCafe(cafe): boolean {
+    const { landArea, floor } = cafe;
+
+    if (typeof landArea !== 'number' || landArea < 0 || typeof floor !== 'number' || floor < 0) {
+        return false;
+    }
+
+    return true;
+}
+
 async function validateDistrict(city, district): Promise<boolean> {
 
     const candidateDistrict = await District.findById(district);
@@ -259,11 +316,15 @@ async function validateEstateName(name): Promise<boolean> {
 const deleteForHouse = (house) => {
     delete house.series;
     delete house.cadastralNumber;
+    delete house.size;
+    delete house.gateHeight;
 }
 
 const deleteForFlat = (flat) => {
     delete flat.landArea;
     delete flat.cadastralNumber;
+    delete flat.size;
+    delete flat.gateHeight;
 }
 
 const deleteForLand = (land) => {
@@ -271,4 +332,34 @@ const deleteForLand = (land) => {
     delete land.floor;
     delete land.livingArea;
     delete land.series;
+    delete land.size;
+    delete land.gateHeight;
+}
+
+const deleteForLandOnly = (land) => {
+    delete land.rooms;
+    delete land.floor;
+    delete land.livingArea;
+    delete land.series;
+    delete land.size;
+    delete land.gateHeight;
+    delete land.cadastralNumber;
+}
+
+const deleteForGarage = (garage) => {
+    delete garage.rooms;
+    delete garage.floor;
+    delete garage.livingArea;
+    delete garage.series;
+    delete garage.cadastralNumber;
+    delete garage.landArea;
+}
+
+const deleteForCafe = (cafe) => {
+    delete cafe.rooms;
+    delete cafe.livingArea;
+    delete cafe.series;
+    delete cafe.cadastralNumber;
+    delete cafe.size;
+    delete cafe.gateHeight;
 }

@@ -9,6 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (req.method === 'GET') {
             return await estateGet(req, res)
+        } if (req.method === 'DELETE') {
+            return await estateDelete(req, res)
         } else {
             return res.status(405).json({ message: 'Method not allowed' });
         }
@@ -57,6 +59,37 @@ const estateGet = async (req: NextApiRequest, res: NextApiResponse) => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const estateDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+    const token = req.headers.authorization.split(" ")[1];
+
+    if (!token)
+        return res.status(201).json({ message: "No Auth" });
+
+    try {
+        await dbConnect();
+
+        const user = await jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!user.isAdmin)
+            throw "user is not admin";
+
+        const id = req.query.id;
+
+        // VALIDATION
+        if (!id || id === "undefined") {
+            return res.status(400).json({ message: "Invalid data" });
+        }
+
+        await Estate.findOneAndDelete({ _id: id })
+
+        return res.status(200).json({ message: "Estate deleted!" })
+
+    } catch (e) {
+        console.log(e)
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }

@@ -298,11 +298,11 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                     defaultValue={""}
                                 >
                                     <option value="" disabled>Select estate type</option>
-                                    <option value="1">House</option>
-                                    <option value="2">Flat</option>
-                                    <option value="3">Land</option>
-                                    <option value="4">Factory</option>
-                                    <option value="5">Commercial object</option>
+                                    {
+                                        Object.keys(types).map((key, i) => (
+                                            <option value={key} key={i}>{types[key].en}</option>
+                                        ))
+                                    }
                                 </select>
                                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
@@ -322,6 +322,86 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                 && <LandInputs type={estate.type.en} onParamChange={(land) => {
                                     setEstate({...estate, landArea: land.landArea, cadastralNumber: land.cadastralNumber})
                             }}/>}
+                            {(estate.type.lv === "Bēniņi, pagrabi" ||
+                                estate.type.lv === "Darbnīcas, noliktavas, ražošanas telpas" ||
+                                estate.type.lv === "Autostāvvietas")
+                                &&
+                                <div className={"flex flex-col"}>
+                                    <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                    <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
+                                    <input
+                                        required={true}
+                                        type={"number"}
+                                        min={0}
+                                        name="landArea"
+                                        id="landArea"
+                                        className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter land area"
+                                        value={estate.landArea}
+                                        onChange={(e) => setEstate({...estate, landArea: e.target.value })}
+                                    />
+                                </div>
+                            }
+                            {(estate.type.lv === "Garāžas")
+                                &&
+                                <div className={"flex flex-col"}>
+                                    <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                    <div className="block text-gray-700 font-bold mb-2">Size:</div>
+                                    <input
+                                        required={true}
+                                        type={"text"}
+                                        min={0}
+                                        name="landArea"
+                                        id="landArea"
+                                        className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter size - 300x200"
+                                        value={estate.size}
+                                        onChange={(e) => setEstate({...estate, size: e.target.value })}
+                                    />
+                                    <div className="block text-gray-700 font-bold mb-2">Gate height:</div>
+                                    <input
+                                        required={true}
+                                        type={"number"}
+                                        min={0}
+                                        name="landArea"
+                                        id="landArea"
+                                        className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter gate height"
+                                        value={estate.gateHeight}
+                                        onChange={(e) => setEstate({...estate, gateHeight: e.target.value })}
+                                    />
+                                </div>
+                            }
+                            {(estate.type.lv === "Restorāni, kafejnīcas, biroji")
+                            &&
+                            <div className={"flex flex-col"}>
+                                <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
+                                <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="landArea"
+                                    id="landArea"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter land area"
+                                    value={estate.landArea}
+                                    onChange={(e) => setEstate({...estate, landArea: e.target.value })}
+                                />
+                                <div className="block text-gray-700 font-bold mb-2">Floor:</div>
+                                <input
+                                    required={true}
+                                    type={"number"}
+                                    min={0}
+                                    name="floor"
+                                    id="floor"
+                                    className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter floor"
+                                    value={estate.floor}
+                                    onChange={(e) => setEstate({...estate, floor: e.target.value })}
+                                />
+                            </div>
+                            }
 
                             <div className="flex justify-end relative">
                                 <button
@@ -390,7 +470,9 @@ export interface Estate {
         en: string,
     },
     landArea?: string,
-    cadastralNumber?: string
+    cadastralNumber?: string,
+    size?: string,
+    gateHeight?: number,
 }
 
 export const emptyEstate: Estate = {
@@ -465,6 +547,31 @@ const types = {
         lv: "Komerciālais īpašums",
         ru: "Коммерческий обьект",
         en: "Commercial object"
+    },
+    '6': {
+        lv: "Bēniņi, pagrabi",
+        ru: "Чердак, подвал",
+        en: "Attic, basement"
+    },
+    '7': {
+        lv: "Darbnīcas, noliktavas, ražošanas telpas",
+        ru: "Цеха, склады, производственные помещения",
+        en: "Workshops, warehouses, production facilities"
+    },
+    '8': {
+        lv: "Garāžas",
+        ru: "Гаражи",
+        en: "Garages"
+    },
+    '9': {
+        lv: "Autostāvvietas",
+        ru: "Стоянки",
+        en: "Parking"
+    },
+    '10': {
+        lv: "Restorāni, kafejnīcas, biroji",
+        ru: "Рестораны, кафе, офисы",
+        en: "Restaurants, cafes, offices"
     }
 }
 
