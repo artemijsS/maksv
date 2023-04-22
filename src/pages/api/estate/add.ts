@@ -8,8 +8,8 @@ import jwt from "jsonwebtoken";
 
 cloudinary.v2.config({
     cloud_name: "artemijss",
-    api_key: "195831589762871",
-    api_secret: "lSI-cfs0Z2XXps4BkZgZUlY3kn8"
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 export const config = {
