@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { token } = req.body;
 
 
     try {
 
+        // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
         if (!user.isAdmin)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
 
 interface Flat {
@@ -24,7 +24,7 @@ const FlatInputs = ({ onParamChange }: IFlatInputs) => {
         onParamChange(flat);
     }, [flat])
 
-    const changeSeries = (e) => {
+    const changeSeries = (e: ChangeEvent<HTMLSelectElement>) => {
         setFlat({...flat, series: series[e.target.value]})
     }
 
@@ -118,7 +118,15 @@ const emptyFlat = {
     }
 }
 
-export const series = {
+interface ISeries {
+    [key: string]: {
+        lv: string,
+        ru: string,
+        en: string,
+    }
+}
+
+export const series: ISeries = {
     '1': {
         lv: "103",
         ru: "103",

@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '../styles/admin.module.scss';
 import { toast } from "react-toastify";
-import { Estate } from './EstateAdd';
+import { IEstate } from './Estate';
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
 import Upload from "../../service/Upload";
 import { series } from "./FLatInputs";
 
 
-export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
+interface EstateUpdateProps {
+    estateOld: IEstate,
+    onCloseClick: () => void,
+    onUpdate: () => void,
+}
+
+export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: EstateUpdateProps) {
 
     const [loading, setLoading] = useState(true);
     const [estate, setEstate] = useState<IEstate>(estateOld);
@@ -46,7 +52,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
         }
     }
 
-    const handleNameSubmit = (e) => {
+    const handleNameSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
     }
 
@@ -59,11 +65,14 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
         })
     }
 
-    const imagesChange = (files) => {
-        setEstate({ ...estate, images: files })
+    const mainImageChange = (file: Image) => {
+        // setEstate({ ...estate, images: files })
+    }
+    const imagesChange = (files: Image[]) => {
+        // setEstate({ ...estate, images: files })
     }
 
-    const changeSeries = (e) => {
+    const changeSeries = (e: ChangeEvent<HTMLSelectElement>) => {
         setEstate({...estate, series: series[e.target.value]})
     }
 
@@ -202,7 +211,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter estate price"
                                     value={estate.price}
-                                    onChange={(e) => setEstate({...estate, price: e.target.value })}
+                                    onChange={(e) => setEstate({...estate, price: Number(e.target.value) })}
                                 />
                                 <div className="flex justify-end relative">
                                     <button
@@ -243,8 +252,8 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                     name="estateCity"
                                     id="estateCity"
                                     className="block appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                                    value={estate.city}
-                                    onChange={(e) => {setEstate({...estate, city: e.target.value}); getDistricts(e.target.value)}}
+                                    value={estate.city._id}
+                                    onChange={(e) => {setEstate({...estate, city: { ...estate.city, _id: e.target.value }}); getDistricts(e.target.value)}}
                                 >
                                     <option value="" disabled>Select estate city</option>
                                     {
@@ -309,6 +318,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                     options={{fullscreenControl: false}}
                                 >
                                     {estate.location.lat && estate.location.lng &&
+                                        // @ts-ignore
                                     (<Marker lng={estate.location.lng} lat={estate.location.lat} text="My Marker"/>)
                                     }
                                 </GoogleMapReact>
@@ -326,10 +336,10 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                         <hr className={"mt-6 mb-6"}/>
                         <form onSubmit={handleNameSubmit}>
                             <div className="block text-gray-700 font-bold mt-6">Main image:</div>
-                            <Upload one={true} onFileChange={(file) => setEstate({...estate, mainImage: file[0]})} filesOld={[estate.mainImage]} />
+                            <Upload one={true} onFileChange={(file: Image[]) => mainImageChange(file[0])} filesOld={[estate.mainImage]} />
 
                             <div className="block text-gray-700 font-bold mt-6">Images:</div>
-                            <Upload onFileChange={(files) => imagesChange(files)} filesOld={estate.images} />
+                            <Upload onFileChange={(files: Image[]) => imagesChange(files)} filesOld={estate.images} />
                             <div className="flex justify-end relative">
                                 <button
                                     type="submit"
@@ -577,7 +587,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
                                     className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter gate height"
                                     value={estate.gateHeight}
-                                    onChange={(e) => setEstate({...estate, gateHeight: e.target.value })}
+                                    onChange={(e) => setEstate({...estate, gateHeight: Number(e.target.value) })}
                                 />
                             </div>
                             <div className="flex justify-end relative">
@@ -650,18 +660,6 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }) {
     )
 }
 
-interface IEstate extends Estate {
-    _id: string,
-    city: {
-        name: {
-            lv: string,
-            ru: string,
-            en: string,
-        },
-        _id: string,
-    }
-}
-
 interface ICity {
     _id: string,
     name: {
@@ -678,6 +676,11 @@ interface IDistrict {
         ru: string,
         en: string
     }
+}
+
+interface Image {
+    file: {},
+    preview: string
 }
 
 const Marker = () => (

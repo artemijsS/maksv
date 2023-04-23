@@ -23,7 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 
-const cityPost = async (req, res) => {
+const cityPost = async (req: NextApiRequest, res: NextApiResponse) => {
+    // @ts-ignore
     const token = req.headers.authorization.split(" ")[1];
 
     if (!token)
@@ -33,6 +34,7 @@ const cityPost = async (req, res) => {
     try {
         await dbConnect();
 
+        // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
         if (!user.isAdmin)

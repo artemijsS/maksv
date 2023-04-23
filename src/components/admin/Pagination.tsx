@@ -1,9 +1,15 @@
 import React from 'react'
 
-export const Pagination = ({ totalPages, activePage, onPageChange }) => {
+interface PaginationProps {
+    totalPages: number,
+    activePage: number,
+    onPageChange: (page: number) => void
+}
+
+export const Pagination = ({ totalPages, activePage, onPageChange }: PaginationProps) => {
     const pagesToShow = 5
 
-    const handleClick = (page) => {
+    const handleClick = (page: number) => {
         onPageChange(page)
     }
 

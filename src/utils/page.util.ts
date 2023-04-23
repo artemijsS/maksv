@@ -33,11 +33,11 @@ export default class Page {
     get Count() { return this.count }
     get Data() { return this.data }
 
-    setCount(count) {
+    setCount(count: number) {
         this.count = count
     }
 
-    setData(data) {
+    setData(data: any[]) {
         this.data = data
     }
 

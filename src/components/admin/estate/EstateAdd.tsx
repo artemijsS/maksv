@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '../styles/admin.module.scss';
 import Upload from '../../service/Upload';
 import HouseInputs from './HouseInputs';
@@ -10,7 +10,12 @@ import axios from "axios";
 import FormData from "form-data";
 
 
-export default function EstateAdd({ onCloseClick, onSave }) {
+interface EstateAddProps {
+    onCloseClick: () => void,
+    onSave: () => void,
+}
+
+export default function EstateAdd({ onCloseClick, onSave }: EstateAddProps) {
 
 
     const [estate, setEstate] = useState<Estate>(emptyEstate);
@@ -20,7 +25,7 @@ export default function EstateAdd({ onCloseClick, onSave }) {
     const [loading, setLoading] = useState<boolean>(false);
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (!estate.location.lat && !estate.location.lng) {
             toast.error("Click location on map!")
@@ -68,17 +73,18 @@ export default function EstateAdd({ onCloseClick, onSave }) {
         })
     }
 
-    const changeType = (e) => {
+    const changeType = (e: ChangeEvent<HTMLSelectElement>) => {
         const typeIndex = e.target.value;
         setEstate({
             ...estate,
+            // @ts-ignore
             type: { lv: types[typeIndex].lv, ru: types[typeIndex].ru, en: types[typeIndex].en },
             rooms: '', floor: '', livingArea: '', landArea: '', cadastralNumber: '',
             series: {lv: '', ru: '', en: ''}
         })
     }
 
-    const imagesChange = (files) => {
+    const imagesChange = (files: Image[]) => {
         setEstate({ ...estate, images: files })
     }
 
@@ -189,7 +195,7 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                 className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Enter estate price"
                                 value={estate.price}
-                                onChange={(e) => setEstate({...estate, price: e.target.value })}
+                                onChange={(e) => setEstate({...estate, price: Number(e.target.value) })}
                             />
 
                             <div className="block text-gray-700 font-bold mb-2">Rent?</div>
@@ -275,16 +281,17 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                     options={{fullscreenControl: false}}
                                 >
                                     {estate.location.lat && estate.location.lng &&
+                                        // @ts-ignore
                                     (<Marker lng={estate.location.lng} lat={estate.location.lat} text="My Marker"/>)
                                     }
                                 </GoogleMapReact>
                             </div>
 
                             <div className="block text-gray-700 font-bold mt-6">Main image:</div>
-                            <Upload one={true} onFileChange={(file) => setEstate({...estate, mainImage: file[0]})} />
+                            <Upload one={true} onFileChange={(file: Image[]) => setEstate({...estate, mainImage: file[0]})} />
 
                             <div className="block text-gray-700 font-bold mt-6">Images:</div>
-                            <Upload onFileChange={(files) => imagesChange(files)} />
+                            <Upload onFileChange={(files: Image[]) => imagesChange(files)} />
 
                             <hr className={"mt-5 mb-6"}/>
 
@@ -368,7 +375,7 @@ export default function EstateAdd({ onCloseClick, onSave }) {
                                         className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder="Enter gate height"
                                         value={estate.gateHeight}
-                                        onChange={(e) => setEstate({...estate, gateHeight: e.target.value })}
+                                        onChange={(e) => setEstate({...estate, gateHeight: Number(e.target.value) })}
                                     />
                                 </div>
                             }
@@ -428,6 +435,11 @@ export default function EstateAdd({ onCloseClick, onSave }) {
     )
 }
 
+interface Image {
+    file: {},
+    preview: string
+}
+
 export interface Estate {
     name: {
         lv: string,
@@ -448,8 +460,8 @@ export interface Estate {
         lat: number,
         lng: number,
     },
-    mainImage: {},
-    images: [],
+    mainImage: Image,
+    images: Image[],
     type: {
         lv: string,
         ru: string,
@@ -496,7 +508,10 @@ export const emptyEstate: Estate = {
         lng: 0,
     },
     images: [],
-    mainImage: {},
+    mainImage: {
+        file: {},
+        preview: ''
+    },
     type: {
         lv: '',
         ru: '',
@@ -522,7 +537,15 @@ interface District {
     }
 }
 
-const types = {
+interface ITypes {
+    [key: string]: {
+        lv: string,
+        ru: string,
+        en: string,
+    }
+}
+
+const types: ITypes = {
     '1': {
         lv: "Mājas",
         ru: "Дома",

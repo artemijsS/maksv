@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '../styles/admin.module.scss';
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -21,7 +21,13 @@ interface City {
     districts: District[]
 }
 
-export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
+interface CityUpdateProps {
+    cityId: string,
+    onCloseClick: () => void,
+    onUpdate: () => void,
+}
+
+export default function CityUpdate({ cityId, onCloseClick, onUpdate }: CityUpdateProps) {
 
     const [loading, setLoading] = useState(true);
     const [city, setCity] = useState<City>({
@@ -54,13 +60,13 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
     }, [])
 
 
-    const handleDistrictChange = (event, index, lan) => {
-        const newDistricts = [...city.districts];
+    const handleDistrictChange = (event: ChangeEvent<HTMLInputElement>, index: number, lan: "lv" | "ru" | "en") => {
+        const newDistricts: District[] = [...city.districts];
         newDistricts[index].name[lan] = event.target.value;
         setCity({ ...city, districts: newDistricts});
     }
 
-    const removeDistrict = (index) => {
+    const removeDistrict = (index: number) => {
         if (city.districts.length === 1) {
             toast.error("You need to save at least one district of this city!")
             return;
@@ -83,7 +89,7 @@ export default function CityUpdate({ cityId, onCloseClick, onUpdate }) {
         setCity({ ...city, districts: [...city.districts, { name: { lv: '', ru: '', en: '' } }] })
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
 
         axios.post('city/info', city, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(_res => {

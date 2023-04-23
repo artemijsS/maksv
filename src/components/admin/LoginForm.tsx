@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -9,15 +9,15 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleUsernameChange = (e) => {
+    const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
     };
 
-    const handlePasswordChange = (e) => {
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         axios.post("auth/login", { username, password }).then(res => {

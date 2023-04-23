@@ -22,15 +22,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== "POST")
         return res.status(405).json({ message: 'Method not allowed' })
 
+    // @ts-ignore
     const token = req.headers.authorization.split(" ")[1];
     if (!token)
         return res.status(201).json({ message: "No Auth" });
-    const user = await jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!user.isAdmin)
-        return res.status(405).json({ message: "user is not admin" });
 
     try {
+        // @ts-ignore
+        const user = await jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!user.isAdmin)
+            return res.status(405).json({ message: "user is not admin" });
+
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             if (err) {
@@ -39,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             try {
 
-                if (!files.mainImage || files.length <= 1 || !fields.estate) {
+                if (!files.mainImage || Object.keys(files).length <= 1 || !fields.estate) {
                     return res.status(400).json({message: 'Invalid data'});
                 }
 
@@ -194,10 +197,10 @@ interface ICafe extends ICommon {
 }
 
 
-function validateCommon(common): boolean {
+function validateCommon(common: any): boolean {
     const { name, description, price, rent, city, district, street, location, type } = common;
 
-    const isValidLangText = (langText): boolean => {
+    const isValidLangText = (langText: any): boolean => {
         return Object.values(langText).every((value) => typeof value === 'string' && value.trim().length > 0);
     };
 
@@ -221,7 +224,7 @@ function validateCommon(common): boolean {
         return false;
     }
 
-    const isValidILangText = (langText): boolean => {
+    const isValidILangText = (langText: any): boolean => {
         return Object.values(langText).length === Object.keys(langText).length && Object.values(langText).every((value) => typeof value === 'string' && value.trim().length > 0);
     };
 
@@ -233,7 +236,7 @@ function validateCommon(common): boolean {
 }
 
 
-function validateHouse(house): boolean {
+function validateHouse(house: any): boolean {
     const { rooms, floor, livingArea, landArea } = house;
 
     if (typeof rooms !== 'number' || rooms < 0 || typeof floor !== 'number' || floor < 0 || typeof livingArea !== 'number' || livingArea < 0 || typeof landArea !== 'number' || landArea < 0) {
@@ -243,7 +246,7 @@ function validateHouse(house): boolean {
     return true;
 }
 
-function validateFlat(flat): boolean {
+function validateFlat(flat: any): boolean {
     const { rooms, floor, livingArea, series } = flat;
 
     if (typeof rooms !== 'number' || rooms < 0 || typeof floor !== 'number' || floor < 0 || typeof livingArea !== 'number' || livingArea < 0 || typeof series !== 'object') {
@@ -253,7 +256,7 @@ function validateFlat(flat): boolean {
     return true;
 }
 
-function validateLand(land): boolean {
+function validateLand(land: any): boolean {
     const { landArea, cadastralNumber } = land;
 
     if (typeof landArea !== 'number' || landArea < 0 || typeof cadastralNumber !== 'string' || cadastralNumber.length === 0) {
@@ -263,7 +266,7 @@ function validateLand(land): boolean {
     return true;
 }
 
-function validateLandOnly(land): boolean {
+function validateLandOnly(land: any): boolean {
     const { landArea } = land;
 
     if (typeof landArea !== 'number' || landArea < 0) {
@@ -273,7 +276,7 @@ function validateLandOnly(land): boolean {
     return true;
 }
 
-function validateGarage(garage): boolean {
+function validateGarage(garage: any): boolean {
     const { gateHeight, size } = garage;
 
     if (typeof gateHeight !== 'number' || gateHeight < 0 || !size) {
@@ -283,7 +286,7 @@ function validateGarage(garage): boolean {
     return true;
 }
 
-function validateCafe(cafe): boolean {
+function validateCafe(cafe: any): boolean {
     const { landArea, floor } = cafe;
 
     if (typeof landArea !== 'number' || landArea < 0 || typeof floor !== 'number' || floor < 0) {
@@ -293,14 +296,14 @@ function validateCafe(cafe): boolean {
     return true;
 }
 
-async function validateDistrict(city, district): Promise<boolean> {
+async function validateDistrict(city: string, district: string): Promise<boolean> {
 
     const candidateDistrict = await District.findById(district);
 
     return !(!candidateDistrict || candidateDistrict.city.toString() !== city);
 }
 
-async function validateEstateName(name): Promise<boolean> {
+async function validateEstateName(name: any): Promise<boolean> {
 
     const candidate = await Estate.findOne({
         $or: [
@@ -313,21 +316,21 @@ async function validateEstateName(name): Promise<boolean> {
     return !candidate;
 }
 
-const deleteForHouse = (house) => {
+const deleteForHouse = (house: any) => {
     delete house.series;
     delete house.cadastralNumber;
     delete house.size;
     delete house.gateHeight;
 }
 
-const deleteForFlat = (flat) => {
+const deleteForFlat = (flat: any) => {
     delete flat.landArea;
     delete flat.cadastralNumber;
     delete flat.size;
     delete flat.gateHeight;
 }
 
-const deleteForLand = (land) => {
+const deleteForLand = (land: any) => {
     delete land.rooms;
     delete land.floor;
     delete land.livingArea;
@@ -336,7 +339,7 @@ const deleteForLand = (land) => {
     delete land.gateHeight;
 }
 
-const deleteForLandOnly = (land) => {
+const deleteForLandOnly = (land: any) => {
     delete land.rooms;
     delete land.floor;
     delete land.livingArea;
@@ -346,7 +349,7 @@ const deleteForLandOnly = (land) => {
     delete land.cadastralNumber;
 }
 
-const deleteForGarage = (garage) => {
+const deleteForGarage = (garage: any) => {
     delete garage.rooms;
     delete garage.floor;
     delete garage.livingArea;
@@ -355,7 +358,7 @@ const deleteForGarage = (garage) => {
     delete garage.landArea;
 }
 
-const deleteForCafe = (cafe) => {
+const deleteForCafe = (cafe: any) => {
     delete cafe.rooms;
     delete cafe.livingArea;
     delete cafe.series;

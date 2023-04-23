@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from '../styles/admin.module.scss';
 import { Pagination } from '../Pagination';
-import EstateAdd, { Estate } from './EstateAdd';
+import EstateAdd from './EstateAdd';
 import EstateUpdate from './EstateUpdate';
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -86,26 +86,69 @@ export default function Cities() {
                 </button>
                 <Pagination
                     totalPages={pagination.pages}
-                    itemsPerPage={pagination.size}
                     activePage={pagination.page + 1}
                     onPageChange={(page) => setPagination({ ...pagination, page: page - 1 })}
                 />
             </div>
             {isOpenAdd && <EstateAdd onCloseClick={() => setIsOpenAdd(false)} onSave={() => {setForceUpdate(forceUpdate+1)}}/>}
-            {isOpenUp && <EstateUpdate estateOld={estates[isOpenUp]} onCloseClick={() => setIsOpenUp('')} onUpdate={() => {setForceUpdate(forceUpdate+1)}}/>}
+            {isOpenUp && <EstateUpdate estateOld={estates[Number(isOpenUp)]} onCloseClick={() => setIsOpenUp('')} onUpdate={() => {setForceUpdate(forceUpdate+1)}}/>}
 
         </section>
 
     )
 }
 
-interface IEstate extends Estate {
+export interface IEstate {
     _id: string,
     city: {
         name: {
             lv: string,
             ru: string,
             en: string,
-        }
-    }
+        },
+        _id: string
+    },
+    mainImage: string,
+    name: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    description: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    price: number,
+    rent: boolean,
+    district: string,
+    street: string,
+    location: {
+        lat: number,
+        lng: number,
+    },
+    images: [],
+    type: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+
+    rooms?: string,
+    livingArea?: string,
+    floor?: string,
+    series?: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    condition?: {
+        lv: string,
+        ru: string,
+        en: string,
+    },
+    landArea?: string,
+    cadastralNumber?: string,
+    size?: string,
+    gateHeight?: number,
 }

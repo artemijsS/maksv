@@ -61,7 +61,7 @@ export default function Cities() {
             {!loading ?
                 <div className={styles.table}>
                     {cities.length > 0 ?
-                        cities.map((city, i) =>
+                        cities.map((city: any, i) =>
                             <div className={styles.row + " " + styles.half} key={i} onClick={() => setIsOpenUp(city._id)}>
                                 <div className={"text-black font-bold text-1xl"}>{city.name.lv}</div>
                             </div>
@@ -81,9 +81,8 @@ export default function Cities() {
                 </button>
                 <Pagination
                     totalPages={pagination.pages}
-                    itemsPerPage={pagination.size}
                     activePage={pagination.page + 1}
-                    onPageChange={(page) => setPagination({ ...pagination, page: page - 1 })}
+                    onPageChange={(page: number) => setPagination({ ...pagination, page: page - 1 })}
                 />
             </div>
             {isOpenAdd && <CityAdd onCloseClick={() => setIsOpenAdd(false)} onSave={() => {setForceUpdate(forceUpdate+1)}}/>}

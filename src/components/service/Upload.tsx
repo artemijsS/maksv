@@ -3,10 +3,21 @@ import FileUpload from 'react-drag-n-drop-image';
 import styles from "../admin/styles/admin.module.scss";
 import { toast } from "react-toastify";
 
-const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
-    const [files, setFiles] = useState([]);
+interface Image {
+    file: {},
+    preview: string
+}
 
-    const onChange = (file) => {
+interface UploadProps {
+    onFileChange: (files: Image[]) => void,
+    one?: boolean,
+    filesOld?: string[]
+}
+
+const Upload = ({ onFileChange, one = false, filesOld = [] }: UploadProps) => {
+    const [files, setFiles] = useState<Image[]>([]);
+
+    const onChange = (file: Image[]) => {
 
         if (one && file.length === 2) {
             const newFiles = [...file];
@@ -25,7 +36,7 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
         toast.error("Error with loading images!");
     };
 
-    const onDelete = (index) => {
+    const onDelete = (index: number) => {
         const newFiles = [...files];
         newFiles.splice(index, 1);
         setFiles(newFiles)
@@ -37,7 +48,7 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
 
     useEffect(() => {
         if (filesOld)
-            setFiles(filesOld)
+            setFiles(filesOld.map(str => ({file: {}, preview: str})))
     }, [])
 
     return (
@@ -45,7 +56,8 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
             <div className={"w-full border-dashed border-2 border-gray-400 bg-gray-100 rounded-md mt-2"} style={{ width: (one ? "40%" : "100%") }}>
                 <FileUpload
                     onError={onError}
-                    body={<CustomBody />}
+                    // @ts-ignore
+                    body={<CustomBody one={one}/>}
                     overlap={false}
                     fileValue={files}
                     onChange={onChange}
@@ -57,7 +69,7 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
                     files.map((file, i) => (
                         <div className={"relative"} style={{ width: (one ? "100%" : "30%"), height: "200px" }} key={i}>
                             <img style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                 src={file.preview ? file.preview : file}
+                                 src={file.preview}
                                  alt="image"
                             />
                             <div style={{ position: "absolute", bottom: "5px", right: "5px", width: "50px", height: "50px", borderRadius: "50%", backgroundColor: "grey", display: "flex", justifyContent: "center", alignItems: "center" }} >
@@ -76,7 +88,7 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }) => {
 export default Upload;
 
 
-function CustomBody(one) {
+function CustomBody(one: boolean) {
     return (
         <div className="w-full flex flex-col justify-center items-center">
             <div className="text-gray-500 p-8">

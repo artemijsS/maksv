@@ -29,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 const districtDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+    // @ts-ignore
     const token = req.headers.authorization.split(" ")[1];
 
     if (!token)
@@ -37,6 +38,7 @@ const districtDelete = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         await dbConnect();
 
+        // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
         if (!user.isAdmin)

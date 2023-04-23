@@ -2,8 +2,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/utils/dbConnect';
 import User from '@/models/User';
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { username, password } = req.body;
 
     await dbConnect();
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
+        // @ts-ignore
         const token = jwt.sign({ userId: existingUser._id, isAdmin: existingUser.isAdmin }, process.env.JWT_SECRET, {
             expiresIn: '1d',
         });

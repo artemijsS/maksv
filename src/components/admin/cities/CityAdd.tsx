@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -13,7 +13,12 @@ interface District {
     en: string,
 }
 
-export default function CityAdd({ onCloseClick, onSave }) {
+interface CityAddProps {
+    onCloseClick: () => void,
+    onSave: () => void
+}
+
+export default function CityAdd({ onCloseClick, onSave }: CityAddProps) {
 
 
     const [city, setCity] = useState<City>({lv: '', en: '', ru: ''})
@@ -24,7 +29,7 @@ export default function CityAdd({ onCloseClick, onSave }) {
         setDistricts([...districts, {lv: '', en: '', ru: ''}]);
     };
 
-    const removeDistrict = (index) => {
+    const removeDistrict = (index: number) => {
         if (districts.length === 1) {
             toast.error("You need to enter at least one district of this city!")
             return;
@@ -34,13 +39,13 @@ export default function CityAdd({ onCloseClick, onSave }) {
         setDistricts(newDistricts);
     }
 
-    const handleDistrictChange = (event, index, lan) => {
-        const newDistricts = [...districts];
+    const handleDistrictChange = (event: ChangeEvent<HTMLInputElement>, index: number, lan: "lv" | "ru" | "en") => {
+        const newDistricts: District[] = [...districts];
         newDistricts[index][lan] = event.target.value;
         setDistricts(newDistricts);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
 
         axios.post('city', { city, districts }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }).then(_res => {

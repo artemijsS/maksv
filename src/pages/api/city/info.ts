@@ -68,6 +68,7 @@ const cityInfoGet = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const cityInfoUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
+    // @ts-ignore
     const token = req.headers.authorization.split(" ")[1];
 
     if (!token)
@@ -76,6 +77,7 @@ const cityInfoUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         await dbConnect();
 
+        // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
         if (!user.isAdmin)
@@ -139,6 +141,7 @@ const cityInfoUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const cityInfoDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+    // @ts-ignore
     const token = req.headers.authorization.split(" ")[1];
 
     if (!token)
@@ -147,6 +150,7 @@ const cityInfoDelete = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         await dbConnect();
 
+        // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
         if (!user.isAdmin)
