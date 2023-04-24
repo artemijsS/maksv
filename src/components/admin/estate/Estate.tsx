@@ -121,7 +121,14 @@ export interface IEstate {
     },
     price: number,
     rent: boolean,
-    district: string,
+    district: {
+        name: {
+            lv: string,
+            ru: string,
+            en: string,
+        },
+        _id: string
+    },
     street: string,
     location: {
         lat: number,

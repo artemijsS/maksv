@@ -9,12 +9,14 @@ interface Image {
 }
 
 interface UploadProps {
-    onFileChange: (files: Image[]) => void,
+    onFileChange: (files: Image[], length?: number) => void,
     one?: boolean,
-    filesOld?: string[]
+    filesOld?: string[],
+    deleteImg?: boolean,
+    onDeleteImg?: (files: Image[], url: string) => void
 }
 
-const Upload = ({ onFileChange, one = false, filesOld = [] }: UploadProps) => {
+const Upload = ({ onFileChange, one = false, filesOld = [], deleteImg = true, onDeleteImg }: UploadProps) => {
     const [files, setFiles] = useState<Image[]>([]);
 
     const onChange = (file: Image[]) => {
@@ -29,6 +31,10 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }: UploadProps) => {
             toast.error("Please upload only one image")
             return;
         }
+        if (typeof onDeleteImg === 'function')
+            onFileChange(file, file.length - files.length);
+        else
+            onFileChange(file);
         setFiles(file);
     };
 
@@ -37,14 +43,18 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }: UploadProps) => {
     };
 
     const onDelete = (index: number) => {
+        if (!one && files.length === 1) {
+            toast.error("Please add second image and then delete this one")
+            return;
+        }
+        const url = files[index].preview
         const newFiles = [...files];
         newFiles.splice(index, 1);
-        setFiles(newFiles)
+        setFiles(newFiles);
+        if (typeof onDeleteImg === 'function') {
+            onDeleteImg(newFiles, url);
+        }
     };
-
-    useEffect(() => {
-        onFileChange(files);
-    }, [files])
 
     useEffect(() => {
         if (filesOld)
@@ -72,11 +82,13 @@ const Upload = ({ onFileChange, one = false, filesOld = [] }: UploadProps) => {
                                  src={file.preview}
                                  alt="image"
                             />
-                            <div style={{ position: "absolute", bottom: "5px", right: "5px", width: "50px", height: "50px", borderRadius: "50%", backgroundColor: "grey", display: "flex", justifyContent: "center", alignItems: "center" }} >
-                                <svg onClick={() => onDelete(i)} style={{ position: "relative", right: "-0.5px", fill: "black" }} className={styles.delete} xmlns="http://www.w3.org/2000/svg" fill={"none"} width="25" height="25" viewBox="0 0 25 25">
-                                    <path d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/>
-                                </svg>
-                            </div>
+                            {deleteImg &&
+                                <div style={{ position: "absolute", bottom: "5px", right: "5px", width: "50px", height: "50px", borderRadius: "50%", backgroundColor: "grey", display: "flex", justifyContent: "center", alignItems: "center" }} >
+                                    <svg onClick={() => onDelete(i)} style={{ position: "relative", right: "-0.5px", fill: "black" }} className={styles.delete} xmlns="http://www.w3.org/2000/svg" fill={"none"} width="25" height="25" viewBox="0 0 25 25">
+                                        <path d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/>
+                                    </svg>
+                                </div>
+                            }
                         </div>
                     ))
                 }

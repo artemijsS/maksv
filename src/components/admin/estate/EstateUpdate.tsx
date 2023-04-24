@@ -6,6 +6,7 @@ import axios from "axios";
 import GoogleMapReact from "google-map-react";
 import Upload from "../../service/Upload";
 import { series } from "./FLatInputs";
+import FormData from "form-data";
 
 
 interface EstateUpdateProps {
@@ -52,11 +53,21 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
         }
     }
 
-    const handleNameSubmit = (e: React.SyntheticEvent) => {
+    const handleNameSubmit = (e: React.SyntheticEvent, update: string) => {
         e.preventDefault();
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('estate', JSON.stringify({...estate, images: [], mainImage: ''}));
+        axios.post(`estate/update?update=${update}`, formData, { headers: { "Content-Type": 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(_res => {
+            toast.success(`Estate ${update} updated - ` + estate.name.lv)
+            onUpdate();
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
+        }).finally(() => setLoading(false));
     }
 
     const getDistricts = (cityId: string) => {
+        setEstate({...estate, city: { ...estate.city, _id: cityId }, district: { name: { lv: '', ru: '', en: ''}, _id: '' }});
         axios.get(`city/district?city=${cityId}`).then(res => {
             setDistricts(res.data);
         }, _err => {
@@ -66,10 +77,54 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
     }
 
     const mainImageChange = (file: Image) => {
-        // setEstate({ ...estate, images: files })
+        if (!file)
+            return;
+        if (file && file.preview === estate.mainImage)
+            return;
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('estate', JSON.stringify({...estate, images: [], mainImage: ''}));
+        formData.append('mainImage', file.file);
+        axios.post(`estate/update?update=mainImage`, formData, { headers: { "Content-Type": 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(res => {
+            toast.success(`Estate main image updated - ` + estate.name.lv)
+            onUpdate();
+            setEstate({...estate, mainImage: res.data.url })
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
+        }).finally(() => setLoading(false));
     }
-    const imagesChange = (files: Image[]) => {
-        // setEstate({ ...estate, images: files })
+
+    const imagesChange = (files: Image[], length: number | undefined) => {
+        if (typeof length === 'undefined')
+            return;
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('estate', JSON.stringify({...estate, images: [], mainImage: ''}));
+        let start = files.length - length - 1
+        for (let i = start; i < files.length; i++) {
+            formData.append(`image${i}`, files[i].file);
+        }
+        axios.post(`estate/update?update=image`, formData, { headers: { "Content-Type": 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(res => {
+            toast.success(`Estate images added - ` + estate.name.lv)
+            // @ts-ignore
+            setEstate({...estate, images: res.data.images })
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
+        }).finally(() => setLoading(false));
+    }
+
+    const imagesDelete = (files: Image[], url: string) => {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('estate', JSON.stringify({...estate, images: [], mainImage: ''}));
+        formData.append('url', url);
+        axios.post(`estate/update?update=imageDelete`, formData, { headers: { "Content-Type": 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(res => {
+            toast.success(`Estate image deleted - ` + estate.name.lv)
+            // @ts-ignore
+            setEstate({...estate, images: res.data.images })
+        }, err => {
+            toast.error(err.response.data.message || "Error occurred")
+        }).finally(() => setLoading(false));
     }
 
     const changeSeries = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -97,7 +152,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                     </svg>
                     <div className="text-lg font-medium mb-4">Update estate</div>
                     <div className="mb-6">
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "name")}>
                             <div className="block text-gray-700 font-bold mb-2">Name:</div>
                             <div className="mb-4 flex justify-between gap-3">
                                 <div className={"flex-1"}>
@@ -148,7 +203,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             </div>
                         </form>
                         <hr className={"mt-6 mb-6"}/>
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "description")}>
                             <div className="block text-gray-700 font-bold mb-2">Description:</div>
                             <div className="mb-4 flex flex-col justify-between gap-3">
                                 <div className={"flex-1"}>
@@ -199,7 +254,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             </div>
                         </form>
                         <hr className={"mt-6 mb-6"}/>
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "price")}>
                             <div className="block text-gray-700 font-bold mb-2">Price:</div>
                             <div className="mb-4 flex justify-between gap-3">
                                 <input
@@ -225,7 +280,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             </div>
                         </form>
                         <hr className={"mt-6 mb-6"}/>
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "rent")}>
                             <div className="block text-gray-700 font-bold mb-2">Rent?</div>
                             <div className="mb-4 flex justify-between gap-3">
                                 <label className={styles.switch}>
@@ -244,7 +299,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             </div>
                         </form>
                         <hr className={"mt-6 mb-6"}/>
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "location")}>
                             <div className="mt-4 block text-gray-700 font-bold mb-2">City:</div>
                             <div className="relative inline-block w-full">
                                 <select
@@ -253,12 +308,12 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                                     id="estateCity"
                                     className="block appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                                     value={estate.city._id}
-                                    onChange={(e) => {setEstate({...estate, city: { ...estate.city, _id: e.target.value }}); getDistricts(e.target.value)}}
+                                    onChange={(e) => {getDistricts(e.target.value)}}
                                 >
                                     <option value="" disabled>Select estate city</option>
                                     {
                                         cities.map((city, i) => (
-                                            <option value={city._id} key={i}>{city.name.lv}</option>
+                                            <option value={city._id} key={i + city._id}>{city.name.lv}</option>
                                         ))
                                     }
                                 </select>
@@ -277,8 +332,8 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                                     name="estateDistrict"
                                     id="estateDistrict"
                                     className="block disabled:cursor-not-allowed appearance-none w-full bg-white border focus:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                                    value={estate.district}
-                                    onChange={(e) => setEstate({...estate, district: e.target.value})}
+                                    value={estate.district._id}
+                                    onChange={(e) => setEstate({...estate, district: { ...estate.district, _id: e.target.value}})}
                                 >
                                     <option value="" disabled>Select estate district</option>
                                     {
@@ -334,25 +389,16 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             </div>
                         </form>
                         <hr className={"mt-6 mb-6"}/>
-                        <form onSubmit={handleNameSubmit}>
-                            <div className="block text-gray-700 font-bold mt-6">Main image:</div>
-                            <Upload one={true} onFileChange={(file: Image[]) => mainImageChange(file[0])} filesOld={[estate.mainImage]} />
+                        <div className="block text-gray-700 font-bold mt-6">Main image:</div>
+                        <Upload one={true} onFileChange={(file: Image[]) => mainImageChange(file[0])} filesOld={[estate.mainImage]} deleteImg={false} />
 
-                            <div className="block text-gray-700 font-bold mt-6">Images:</div>
-                            <Upload onFileChange={(files: Image[]) => imagesChange(files)} filesOld={estate.images} />
-                            <div className="flex justify-end relative">
-                                <button
-                                    type="submit"
-                                    className="mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:cursor-not-allowed"
-                                    disabled={loading}
-                                >
-                                    Save
-                                </button>
-                            </div>
-                        </form>
+                        <div className="block text-gray-700 font-bold mt-6">Images:</div>
+                        <Upload onFileChange={(files: Image[], length: number | undefined) => imagesChange(files, length)} filesOld={estate.images} onDeleteImg={(files: Image[], url: string) => imagesDelete(files, url)}/>
+
+                        <hr className={"mt-6 mb-6"}/>
 
                         {estate.type.lv === "Mājas" &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "house")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center">HOUSE</div>
                                 <div className="block text-gray-700 font-bold mb-2">Rooms:</div>
@@ -416,7 +462,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                         </form>
                         }
                         {estate.type.lv === "Dzīvokļi" &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "flat")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center">FLAT</div>
                                 <div className="block text-gray-700 font-bold mb-2">Rooms:</div>
@@ -490,7 +536,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                         </form>
                         }
                         {(estate.type.lv === "Rūpnīca" || estate.type.lv === "Zeme" || estate.type.lv === "Komerciālais īpašums") &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "land")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
                                 <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
@@ -533,7 +579,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                             estate.type.lv === "Darbnīcas, noliktavas, ražošanas telpas" ||
                             estate.type.lv === "Autostāvvietas")
                         &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "landOnly")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
                                 <div className="block text-gray-700 font-bold mb-2">Land Area:</div>
@@ -562,7 +608,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                         }
                         {(estate.type.lv === "Garāžas")
                         &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "garage")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
                                 <div className="block text-gray-700 font-bold mb-2">Size:</div>
@@ -603,7 +649,7 @@ export default function EstateUpdate({ estateOld, onCloseClick, onUpdate }: Esta
                         }
                         {(estate.type.lv === "Restorāni, kafejnīcas, biroji")
                         &&
-                        <form onSubmit={handleNameSubmit}>
+                        <form onSubmit={(e: React.SyntheticEvent) => handleNameSubmit(e, "cafe")}>
                             <div className={"flex flex-col"}>
                                 <div className="block text-gray-700 font-bold mb-4 text-center" style={{ textTransform: "uppercase" }}>{ estate.type.en }</div>
                                 <div className="block text-gray-700 font-bold mb-2">Land Area:</div>

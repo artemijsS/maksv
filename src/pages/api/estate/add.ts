@@ -22,12 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== "POST")
         return res.status(405).json({ message: 'Method not allowed' })
 
-    // @ts-ignore
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token)
-        return res.status(201).json({ message: "No Auth" });
 
     try {
+
+        // @ts-ignore
+        const token = req.headers.authorization.split(" ")[1];
+        if (!token)
+            return res.status(201).json({ message: "No Auth" });
+
         // @ts-ignore
         const user = await jwt.verify(token, process.env.JWT_SECRET);
 
@@ -97,26 +99,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 const typedEstate: IHouse | IFlat | ILand | ILandOnly | IGarage | ICafe = estate;
 
+                await dbConnect();
 
                 let mainImageUrl = '';
                 let imageUrls = [];
 
-                // let result = await cloudinary.uploader.upload(files.mainImage.filepath);
-                // mainImageUrl = result.secure_url;
-                // delete files.mainImage
-                //
-                // const fileNames = Object.keys(files)
-                //
-                // for (let i = 0; i < fileNames.length; i++) {
-                //     let result = await cloudinary.uploader.upload(files[fileNames[i]].filepath);
-                //     if (!result.secure_url)
-                //         throw "no image secure_url"
-                //
-                //     imageUrls.push(result.secure_url);
-                // }
+                // @ts-ignore
+                let result = await cloudinary.uploader.upload(files.mainImage.filepath);
+                mainImageUrl = result.secure_url;
+                delete files.mainImage
 
-                mainImageUrl = "https://res.cloudinary.com/artemijss/image/upload/v1682090503/wqd4f4zjw9xzquedua09.jpg"
-                imageUrls = ["https://res.cloudinary.com/artemijss/image/upload/v1682090517/qqrzzr3zmzkwjvgkzdxs.jpg", "https://res.cloudinary.com/artemijss/image/upload/v1682090531/wakpkv8twyl1lmui87po.jpg"]
+                const fileNames = Object.keys(files)
+
+                for (let i = 0; i < fileNames.length; i++) {
+                    // @ts-ignore
+                    let result = await cloudinary.uploader.upload(files[fileNames[i]].filepath);
+                    if (!result.secure_url)
+                        throw "no image secure_url"
+
+                    imageUrls.push(result.secure_url);
+                }
+
+                // mainImageUrl = "https://res.cloudinary.com/artemijss/image/upload/v1682090503/wqd4f4zjw9xzquedua09.jpg"
+                // imageUrls = ["https://res.cloudinary.com/artemijss/image/upload/v1682090517/qqrzzr3zmzkwjvgkzdxs.jpg", "https://res.cloudinary.com/artemijss/image/upload/v1682090531/wakpkv8twyl1lmui87po.jpg"]
 
                 typedEstate.mainImage = mainImageUrl;
                 typedEstate.images = imageUrls;

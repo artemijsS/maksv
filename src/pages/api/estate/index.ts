@@ -3,6 +3,13 @@ import jwt from 'jsonwebtoken';
 import dbConnect from '@/utils/dbConnect';
 import Page from '@/utils/page.util';
 import Estate from '@/models/Estate';
+import cloudinary from "cloudinary";
+
+cloudinary.v2.config({
+    cloud_name: "artemijss",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -84,6 +91,23 @@ const estateDelete = async (req: NextApiRequest, res: NextApiResponse) => {
         // VALIDATION
         if (!id || id === "undefined") {
             return res.status(400).json({ message: "Invalid data" });
+        }
+
+        const estate = await Estate.findById(id);
+
+        // MAIN image delete
+        // @ts-ignore
+        const publicId = estate.mainImage.split("/").pop().split(".")[0];
+
+        // @ts-ignore
+        await cloudinary.uploader.destroy(publicId);
+
+        // Images delete
+        for (let image of estate.images) {
+            // @ts-ignore
+            const publicId = image.split("/").pop().split(".")[0];
+            // @ts-ignore
+            await cloudinary.uploader.destroy(publicId);
         }
 
         await Estate.findOneAndDelete({ _id: id })
