@@ -34,3 +34,7 @@ html {
         padding: 0 10px;
     }
 }
+
+a:hover {
+    color: #FFC53C;
+}

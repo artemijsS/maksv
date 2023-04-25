@@ -45,12 +45,13 @@ const Header = () => {
     const scrollCheck = () => {
         if (window.scrollY === 0) {
             setBackground('')
+            console.log(1)
         } else
             setBackground('#FFF')
     }
 
     return (
-        <header className={style.headerContainer} style={{ backgroundColor: background }}>
+        <header className={style.headerContainer} style={{ backgroundColor: `${background ? background : 'transparent'}` }}>
             <div className={"wrapper " + style.header}>
                 <Link href={"/"} className={style.logo}>
                     <Image src={Logo} alt={"logo"}/>

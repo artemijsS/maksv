@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import dbConnect from '@/utils/dbConnect';
 import Page from '@/utils/page.util';
 import Estate from '@/models/Estate';
+import District from '@/models/District';
+import City from '@/models/City';
 import cloudinary from "cloudinary";
 
 cloudinary.v2.config({
@@ -44,7 +46,7 @@ const estateGet = async (req: NextApiRequest, res: NextApiResponse) => {
                 { "type.ru": { $regex: page.Search, $options: 'i' } },
                 { "type.en": { $regex: page.Search, $options: 'i' } },
             ]
-        }).limit(page.Size).skip(page.Size * page.Page).populate('district').populate('city').sort({
+        }).limit(page.Size).skip(page.Size * page.Page).populate({path: 'district', model: District}).populate({path: 'city', model: City}).sort({
             createdAt: "desc"
         });
 
