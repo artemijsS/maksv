@@ -32,7 +32,6 @@ export default function SliderSection({ data }: SliderSectionProps) {
     };
 
     const handleMouseLeave = () => {
-        console.log(1)
         setIsHovered(false);
     };
 
