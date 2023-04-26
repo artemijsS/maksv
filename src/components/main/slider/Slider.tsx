@@ -4,6 +4,7 @@ import { IEstate } from '../../../types';
 import Slider from 'react-slick';
 import styles from './slider.module.scss';
 import Link from "next/link";
+import { City, District, LandArea, Floor, LivingArea, Rooms } from '../../../assets/params';
 
 
 const settings = {
@@ -70,17 +71,22 @@ export default function SliderSection({ data }: SliderSectionProps) {
                         <img src={estate.mainImage} alt={"estate"}/>
                         <div className={styles.buttonBlock + " wrapper"}>
                             <h1>Jūsu Sapņu Māja Vienmēr ir Pieejama Pie Mums</h1>
-                            <Link href={"/estate"} className={styles.button}>Vairāk informācijas</Link>
+                            <Link href={"/estate"} tabIndex={-1} className={styles.button}>Vairāk informācijas</Link>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.name}>
                                 <p>{estate.name[i18n.language]}</p>
                             </div>
                             <div className={styles.price}>
-                                <p>{Number(estate.price.toFixed(2)).toLocaleString('lv', { style: 'currency', currency: 'EUR' })}</p>
+                                <p>{Number(estate.price.toFixed(2)).toLocaleString('lv', { style: 'currency', currency: 'EUR' })} {estate.rent ? t("params:month") : ''}</p>
                             </div>
                             <div className={styles.params}>
-                                {estate.livingArea && estate.livingArea + " m²"}
+                                {estate.city && (<div className={styles.param}><span><City /></span>{estate.city.name[i18n.language]}</div>)}
+                                {estate.district && (<div className={styles.param}><span><District /></span>{estate.district.name[i18n.language]}</div>)}
+                                {estate.landArea && (<div className={styles.param}><span><LandArea /></span>{estate.landArea} m²</div>)}
+                                {estate.floor && (<div className={styles.param}><span><Floor /></span>{estate.floor} {estate.type.en === "Houses" ? t("params:floors") : t("params:floor")}</div>)}
+                                {estate.rooms && (<div className={styles.param}><span><Rooms /></span>{estate.rooms} {t("params:rooms")}</div>)}
+                                {estate.livingArea && (<div className={styles.param}><span><LivingArea /></span>{estate.livingArea} m²</div>)}
                             </div>
                             <div className={styles.progress}>
                                 <progress value={time} max={settings.autoplaySpeed}/>

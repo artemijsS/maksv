@@ -1,7 +1,7 @@
 @import "src/styles/global";
 
 .slider {
-
+  width: 100vw;
   .slide {
     position: relative;
 
@@ -64,12 +64,28 @@
       }
 
       .params {
+        height: 100px;
+        max-width: 400px;
         display: none;
+        margin-top: 20px;
+
+        .param {
+          display: flex;
+          align-items: center;
+          margin-right: 19px;
+
+          span {
+            margin-right: 10px;
+          }
+        }
       }
 
       &:hover {
+        transform: translateY(-120px);
+
         .params {
           display: flex;
+          flex-wrap: wrap;
         }
       }
 
@@ -87,5 +103,71 @@
         }
       }
     }
+
+    @media screen and (max-width: $big) {
+      .buttonBlock {
+        h1 {
+          width: 30%;
+          font-size: 1.5em;
+        }
+
+        .button {
+          width: 200px;
+        }
+      }
+    }
+    @media screen and (max-width: $medium) {
+      position: relative;
+      .buttonBlock {
+        h1 {
+          display: none;
+        }
+
+        .button {
+          position: absolute;
+          right: 0;
+          bottom: -45.59vh;
+          border-radius: 0;
+          width: 100vw;
+          height: 50px;
+          font-size: 1.4em;
+          padding: unset;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+
+    @media screen and (max-width: $small) {
+      position: relative;
+      .info {
+        width: 90%;
+        bottom: 49.5px;
+        top: unset;
+
+        .progress {
+          display: none;
+        }
+
+        .params {
+          height: unset;
+          width: unset;
+          gap: 20px 0;
+          margin-bottom: 20px;
+        }
+
+        &:hover {
+          transform: unset;
+
+          .params {
+            display: flex;
+            flex-wrap: wrap;
+          }
+        }
+
+      }
+    }
+
   }
 }
