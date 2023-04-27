@@ -22,7 +22,7 @@ const settings = {
 export default function SliderOffer() {
 
     const { t } = useTranslation();
-    const sliderRef = useRef();
+    const sliderRef = useRef<Slider>(null);
     const [activeSlide, setActiveSlide] = useState<number>(0);
 
     const beforeChangeHandler = (cur: number, next: number) => {
@@ -30,7 +30,8 @@ export default function SliderOffer() {
     };
 
     const handleSliderButtonClick = (index: number) => {
-        sliderRef.current.slickGoTo(index);
+        if (sliderRef.current)
+            sliderRef.current.slickGoTo(index);
     };
 
     return (
