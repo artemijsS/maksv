@@ -1,12 +1,13 @@
 @import "src/styles/global";
 
 .slider {
-  width: 100vw;
+
+  padding-right: 0;
   .slide {
     position: relative;
 
     img {
-      width: 100%;
+      width: 100vw;
       height: 70vh;
       min-height: 400px;
       max-height: 880px;
@@ -100,6 +101,16 @@
             background-color: $bg-main;
             border-radius: 5px;
           }
+
+          &::-moz-progress-bar {
+            background-color: $bg-main;
+            border-radius: 5px;
+          }
+
+          &::-ms-fill {
+            background-color: $bg-main;
+            border-radius: 5px;
+          }
         }
       }
     }
@@ -140,11 +151,14 @@
     }
 
     @media screen and (max-width: $small) {
-      position: relative;
       .info {
         width: 90%;
         bottom: 49.5px;
         top: unset;
+
+        .price {
+          font-size: 1.6em;
+        }
 
         .progress {
           display: none;

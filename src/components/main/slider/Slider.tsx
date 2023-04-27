@@ -15,6 +15,7 @@ const settings = {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
+    arrows: false
 };
 
 interface SliderSectionProps {

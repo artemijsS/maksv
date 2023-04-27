@@ -6,6 +6,7 @@ import MainContainer from "../components/MainContainer";
 import axios from "axios";
 import { IEstate } from "../types";
 import SliderSection from '../components/main/slider/Slider';
+import SliderAboutUs from '../components/main/sliderOffer/SliderOffer';
 
 
 interface HomeProps {
@@ -19,6 +20,7 @@ export default function Home({ estate }: HomeProps) {
     return (
       <MainContainer>
           <SliderSection data={estate}/>
+          <SliderAboutUs />
 
       </MainContainer>
     )

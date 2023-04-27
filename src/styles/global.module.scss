@@ -3,18 +3,10 @@
 .mainBlock {
   //padding-top: 80px;
 
-  h1, h2 {
+  h1, h2, h3 {
     font-size: 3.2em;
-    color: var(--cl-dark-state);
   }
 
-  h2 {
-    margin-bottom: 100px;
-
-    & span {
-      color: var(--cl-highlighted);
-    }
-  }
 
   h4 {
     font-size: 2em;
@@ -34,15 +26,11 @@
   }
   @media screen and (max-width: $medium) {
     //padding-top: 80px;
-    h2 {
-      margin-bottom: 70px;
-    }
   }
   @media screen and (max-width: $small) {
     font-size: 0.65em;
-    h2 {
+    h3 {
       font-size: 2.2em;
-      margin-bottom: 30px;
     }
   }
 
