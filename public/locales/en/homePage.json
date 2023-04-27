@@ -1,0 +1,21 @@
+{
+  "test": "ahahha",
+  "info": {
+    "aboutUs": {
+      "title": "About Us",
+      "p": "SIA “Maks V” has been stably working in the Latvian real estate market since 1998 and provides professional assistance to its clients in search, purchase, registration of real estate, etc. Each client is guaranteed an individual approach and solution of tasks in the shortest possible time.\nOver the years we have formed a high level team of experts, collected an extensive database of objects, actively cooperating with the credit institutions and various governmental agencies. All this allows us to work successfully, develop and provide consistently high quality of our services."
+    },
+    "estate": {
+      "title": "Real Estate",
+      "p": "Apartments, private homes, land, commercial real estate and investment property – with the help of professional work “Maks V” everyone can achieve the desired result in real estate transactions!"
+    },
+    "construction": {
+      "title": "Construction",
+      "p": "The company “Maks V” is engaged in construction of houses on a turnkey basis from a wide range of building materials"
+    },
+    "evaluation": {
+      "title": "Evaluation",
+      "p": "Maks V provides real estate valuation services and is an associate member of the Latvian Association of Property Appraisers (LĪVA)."
+    }
+  }
+}

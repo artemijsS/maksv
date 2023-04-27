@@ -1,0 +1,21 @@
+{
+  "test": "ahahha",
+  "info": {
+    "aboutUs": {
+      "title": "Par mums",
+      "p": "SIA “Maks V” stabili darbojas Latvijas nekustamā īpašuma tirgū kopš 1998. gada un sniedz profesionālu palīdzību saviem klientiem nekustamā īpašuma meklēšanā, iegādē, reģistrācijā u.c. Katram klientam tiek garantēta individuāla pieeja un problēmu risinājums iespējami īsākā laikā. Gadu gaitā esam izveidojuši augsta līmeņa speciālistu komandu, apkopojuši plašu īpašumu datubāzi un plaši sadarbojušies ar kredītiestādēm un dažādām valsts iestādēm. Tas viss ļauj mums veiksmīgi strādāt, attīstīties un nodrošināt nemainīgi augstu pakalpojumu kvalitāti."
+    },
+    "estate": {
+      "title": "Nekustamais īpašums",
+      "p": "Dzīvokļi, privātmājas, zeme, komercīpašumi un investīciju īpašumi – ar Maksa V profesionālo darbu ikviens var sasniegt vēlamo rezultātu nekustamā īpašuma darījumos!"
+    },
+    "construction": {
+      "title": "Būvniecība",
+      "p": "“MaksV Būvē” būvē mājas “līdz atslēgai”, izmantojot plašu būvmateriālu klāstu."
+    },
+    "evaluation": {
+      "title": "Vērtēšana",
+      "p": "“MaksV Vertēšana” sniedz nekustamā īpašuma vērtēšanas pakalpojumus un ir Latvijas Īpašumu vērtētāju asociācijas (LĪVA) asociētais biedrs."
+    }
+  }
+}

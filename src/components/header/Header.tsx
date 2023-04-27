@@ -45,7 +45,6 @@ const Header = () => {
     const scrollCheck = () => {
         if (window.scrollY === 0) {
             setBackground('')
-            console.log(1)
         } else
             setBackground('#FFF')
     }

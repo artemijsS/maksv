@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import Slider from 'react-slick';
 import styles from './sliderOffer.module.scss';
 import Link from "next/link";
-import Estate from "../../../assets/aboutUs/estate.png";
+import Estate from "../../../assets/offer/estate.png";
 import Image from "next/image";
 
 
