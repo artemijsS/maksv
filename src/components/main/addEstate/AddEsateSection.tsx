@@ -14,19 +14,19 @@ export default function AddEstateSection() {
         <div className={styles.sliderAbout + " " + styles.add}
         >
             <div className={"wrapper"}>
-                <h2>Esam Atvērti Iegādāties Jūsu Nekustamo Īpašumu!</h2>
+                <h2>{t("homePage:sell.title")}</h2>
             </div>
             <div style={{ margin: "auto", maxWidth: "1500px", position: "relative" }}>
                 <div className={"wrapper"}>
                     <div className={styles.slide}>
                         <Image src={AddEstate} alt="Estate"/>
                         <div className={styles.info}>
-                            <h3>Pievieno Jūsu objektu pardošānai</h3>
+                            <h3>{t("homePage:sell.h3")}</h3>
                             <div>
-                                <p>Mēs esam ieinteresēti iegādāties jūsu nekustamo īpašumu! Neatkarīgi no tā, vai vēlaties pārdot dzīvojamo vai komerciālo īpašumu, mēs piedāvājam konkurētspējīgas cenas un bezproblēmu darījumu procesu.</p>
-                                <p>Sazinieties ar mums jau šodien, lai ieplānotu konsultāciju un spertu pirmo soli ceļā uz sava īpašuma pārdošanu par lielisku cenu!</p>
+                                <p>{t("homePage:sell.p1")}</p>
+                                <p>{t("homePage:sell.p2")}</p>
                             </div>
-                            <Link href={"/estate"} className={styles.button}>Vairāk informācijas</Link>
+                            <Link href={"/estate"} className={styles.button}>{t("homePage:button.contactUs")}</Link>
                         </div>
                     </div>
                 </div>

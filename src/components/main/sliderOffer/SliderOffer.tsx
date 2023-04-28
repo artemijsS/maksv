@@ -38,7 +38,7 @@ export default function SliderOffer() {
         <div className={styles.sliderAbout}
         >
             <div className={"wrapper"}>
-                <h2>Ko Mēs Piedavājām?</h2>
+                <h2>{t("homePage:offer.title")}</h2>
                 <div className={styles.slideChange}>
                     <button onClick={() => handleSliderButtonClick(0)} className={activeSlide === 0 ? styles.active : ""}>{t("header:estate")}</button>
                     <button onClick={() => handleSliderButtonClick(1)} className={activeSlide === 1 ? styles.active : ""}>{t("header:evaluation")}</button>
@@ -55,9 +55,9 @@ export default function SliderOffer() {
                         <div className={styles.slide}>
                             <Image src={Estate} alt="Estate"/>
                             <div className={styles.info}>
-                                <h3>Nekustamā īpašuma pirkšanas-pārdošanas risinājumi</h3>
-                                <p>Mēs piedāvājam visaptverošus risinājumus nekustamā īpašuma pirkšanai un pārdošanai. Mūsu pieredzējušo profesionāļu komanda sniedz ekspertu norādījumus un atbalstu, lai nodrošinātu netraucētu un bez problēmām darījumu procesu.</p>
-                                <Link href={"/estate"} className={styles.button}>Vairāk informācijas</Link>
+                                <h3>{t("homePage:offer.estate.h3")}</h3>
+                                <p>{t("homePage:offer.estate.p")}</p>
+                                <Link href={"/estate"} className={styles.button}>{t("homePage:button.info")}</Link>
                             </div>
                         </div>
                     </div>
@@ -65,9 +65,9 @@ export default function SliderOffer() {
                         <div className={styles.slide}>
                             <Image src={Estate} alt="Estate"/>
                             <div className={styles.info}>
-                                <h3>Nekustamā īpašuma pirkšanas-pārdošanas risinājumi</h3>
-                                <p>Mēs piedāvājam visaptverošus risinājumus nekustamā īpašuma pirkšanai un pārdošanai. Mūsu pieredzējušo profesionāļu komanda sniedz ekspertu norādījumus un atbalstu, lai nodrošinātu netraucētu un bez problēmām darījumu procesu.</p>
-                                <Link href={"/estate"} className={styles.button}>Vairāk informācijas</Link>
+                                <h3>{t("homePage:offer.evaluation.h3")}</h3>
+                                <p>{t("homePage:offer.evaluation.p")}</p>
+                                <Link href={"/evaluation"} className={styles.button}>{t("homePage:button.info")}</Link>
                             </div>
                         </div>
                     </div>
@@ -75,9 +75,9 @@ export default function SliderOffer() {
                         <div className={styles.slide}>
                             <Image src={Estate} alt="Estate"/>
                             <div className={styles.info}>
-                                <h3>Nekustamā īpašuma pirkšanas-pārdošanas risinājumi</h3>
-                                <p>Mēs piedāvājam visaptverošus risinājumus nekustamā īpašuma pirkšanai un pārdošanai. Mūsu pieredzējušo profesionāļu komanda sniedz ekspertu norādījumus un atbalstu, lai nodrošinātu netraucētu un bez problēmām darījumu procesu.</p>
-                                <Link href={"/estate"} className={styles.button}>Vairāk informācijas</Link>
+                                <h3>{t("homePage:offer.construction.h3")}</h3>
+                                <p>{t("homePage:offer.construction.p")}</p>
+                                <Link href={"/construction"} className={styles.button}>{t("homePage:button.info")}</Link>
                             </div>
                         </div>
                     </div>

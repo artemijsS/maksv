@@ -1,5 +1,7 @@
 {
-  "test": "ahahha",
+  "slider": {
+    "h1": "Jūsu Sapņu Māja Vienmēr ir Pieejama Pie Mums"
+  },
   "info": {
     "aboutUs": {
       "title": "Par mums",
@@ -17,5 +19,30 @@
       "title": "Vērtēšana",
       "p": "“MaksV Vertēšana” sniedz nekustamā īpašuma vērtēšanas pakalpojumus un ir Latvijas Īpašumu vērtētāju asociācijas (LĪVA) asociētais biedrs."
     }
+  },
+  "offer": {
+    "title": "Ko Mēs Piedavājām?",
+    "estate": {
+      "h3": "Jūsu sapņu māja gaida: atklājiet labāko nekustamo īpašumu!",
+      "p": "Mūsu vietne piedāvā nekustamo īpašumu pārdošanu - atrisinājumu Jūsu sapņu mājas meklējumos. Izklausieties un atklājiet labākos nekustamos īpašumus, kas atbilst Jūsu vēlmēm un prasībām. Mēs esam gatavi palīdzēt Jums sasniegt savus mājas iegādes mērķus."
+    },
+    "evaluation": {
+      "h3": "Visaptverošs nekustamā īpašuma novērtējums",
+      "p": "Gūstiet pārliecību par saviem lēmumiem par investīcijām nekustamajā īpašumā, izmantojot profesionāla nekustamā īpašuma novērtēšanas spēku, kas ir pielāgots jūsu īpašajām vajadzībām un mērķiem."
+    },
+    "construction": {
+      "h3": "Sapņu veidošana: būvniecības izcilības potenciāla atraisīšana",
+      "p": "Izmantojot inovācijas un zināšanas, mūsu būvniecības pakalpojumi nodrošina nepārspējamu kvalitāti, uzticamību un klientu apmierinātību, nodrošinot, ka jūsu projekts pārsniedz cerības."
+    }
+  },
+  "button": {
+    "info": "Vairāk informācijas",
+    "contactUs": "Sazināties ar mūms"
+  },
+  "sell": {
+    "title": "Palieliniet sava īpašuma potenciālu: norādiet savu īpašumu pārdošanai jau šodien!",
+    "h3": "Pievienot Jūsu objektu pardošānai",
+    "p1": "Izmantojot mūsu plašo tīklu, zināšanas un pielāgotās mārketinga stratēģijas, mēs nodrošinām jūs ar platformu, lai demonstrētu jūsu īpašumu un piesaistītu pircējus.",
+    "p2": "Nepalaidiet garām iespēju maksimāli palielināt sava īpašuma vērtību un panākt veiksmīgu pārdošanu!"
   }
 }

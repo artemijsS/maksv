@@ -1,5 +1,7 @@
 {
-  "test": "ahahha",
+  "slider": {
+    "h1": "Your Dream Home Is Always Available With Us"
+  },
   "info": {
     "aboutUs": {
       "title": "About Us",
@@ -17,5 +19,30 @@
       "title": "Evaluation",
       "p": "Maks V provides real estate valuation services and is an associate member of the Latvian Association of Property Appraisers (LĪVA)."
     }
+  },
+  "offer": {
+    "title": "What do we offer?",
+    "state": {
+      "h3": "Your dream home is waiting for you: discover the best real estate!",
+      "p": "Our site offers real estate sales - the solution to find your dream home. Discover the best property that suits your wishes and requirements. We are ready to help you achieve your goals when buying a home."
+    },
+    "evaluation": {
+      "h3": "Comprehensive real estate appraisal",
+      "p": "Gain confidence in your investment decisions with a professional real estate appraisal tailored to your specific needs and goals."
+    },
+    "construction": {
+      "h3": "Dream Building: Unleashing the Potential of Excellence in Construction",
+      "p": "Using innovation and experience, our construction services deliver unrivaled quality, reliability and customer satisfaction, ensuring your project exceeds expectations."
+    }
+  },
+  "button": {
+    "info": "Additional information",
+    "contactUs": "Contact us"
+  },
+  "sell": {
+    "title": "Grow the potential of your property: list your property for sale today!",
+    "h3": "Add your property for sale",
+    "p1": "Using our extensive network, experience and customized marketing strategies, we provide you with a platform to showcase your property and attract buyers.",
+    "p2": "Don't miss out on the opportunity to maximize the value of your property and make a successful sale!"
   }
 }

@@ -71,8 +71,8 @@ export default function SliderSection({ data }: SliderSectionProps) {
                     <div className={styles.slide} key={i}>
                         <img src={estate.mainImage} alt={"estate"}/>
                         <div className={styles.buttonBlock + " wrapper"}>
-                            <h1>Jūsu Sapņu Māja Vienmēr ir Pieejama Pie Mums</h1>
-                            <Link href={"/estate"} tabIndex={-1} className={styles.button}>Vairāk informācijas</Link>
+                            <h1>{t("homePage:slider.h1")}</h1>
+                            <Link href={"/estate"} tabIndex={-1} className={styles.button}>{t("homePage:button.info")}</Link>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.name}>
