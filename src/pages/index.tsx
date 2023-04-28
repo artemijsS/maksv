@@ -8,7 +8,7 @@ import { IEstate } from "../types";
 import SliderSection from '../components/main/slider/Slider';
 import SliderAboutUs from '../components/main/sliderOffer/SliderOffer';
 import InfoSection from '../components/main/info/InfoSection';
-import AddEsateSection from '../components/main/addEstate/AddEsateSection';
+import AddEstateSection from '../components/main/addEstate/AddEsateSection';
 
 
 interface HomeProps {
@@ -24,7 +24,7 @@ export default function Home({ estate }: HomeProps) {
             <SliderSection data={estate}/>
             <SliderAboutUs />
             <InfoSection />
-            <AddEsateSection />
+            <AddEstateSection />
         </MainContainer>
     )
 }

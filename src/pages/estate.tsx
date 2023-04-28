@@ -2,6 +2,7 @@ import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import MainContainer from "../components/MainContainer";
+import HeaderSection from "../components/estate/headerSection/HeaderSection";
 
 
 export default function Estate() {
@@ -10,9 +11,7 @@ export default function Estate() {
 
     return (
         <MainContainer>
-            <div className={"wrapper"}>
-                <p>Estate</p>
-            </div>
+            <HeaderSection />
 
         </MainContainer>
     )
