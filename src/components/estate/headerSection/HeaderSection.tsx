@@ -16,7 +16,7 @@ const HeaderSection = () => {
             <div className={style.buttonBlock + " wrapper"}>
                 <h1>{t("estatePage:headerSection.h1")}</h1>
                 <p>{t("estatePage:headerSection.p1")}</p>
-                <p dangerouslySetInnerHTML={{ __html: t("estatePage:headerSection.p2") }}/>
+                <p dangerouslySetInnerHTML={{ __html: t("estatePage:headerSection.p2") || "<strong>Maks V</strong>" }}/>
             </div>
         </div>
     )
