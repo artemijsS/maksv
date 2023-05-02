@@ -120,6 +120,7 @@ const emptyFlat = {
 
 interface ISeries {
     [key: string]: {
+        [key: string]: string,
         lv: string,
         ru: string,
         en: string,
@@ -163,8 +164,8 @@ export const series: ISeries = {
         en: "Lithuanian project",
     },
     '8': {
-        lv: "Малосемейка",
-        ru: "Mazģimeņu",
+        lv: "Mazģimeņu",
+        ru: "Малосемейка",
         en: "Small apartment",
     },
     '9': {
