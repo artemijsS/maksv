@@ -1,6 +1,6 @@
 <h1 align="center">
     <img width="192" height="192" src="./public/favicon.ico" alt=""><br>
-    EnergyPlus
+    Maksv
 </h1>
 
 Maksv is a Latvian company that deals with real estate.
