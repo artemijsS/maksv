@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from './select.module.scss'
 
 interface Option {
@@ -11,16 +11,18 @@ interface SelectProps {
     placeHolder: string,
     onSelect: (value: string) => void,
     disabled?: boolean
+    valueActual: string
 }
 
-const Select = ({ options, placeHolder, onSelect, disabled }: SelectProps) => {
+const Select = ({ options, placeHolder, onSelect, disabled, valueActual }: SelectProps) => {
 
-    const [ value, setValue ] = useState<Option>({option: placeHolder, value: ''})
+    const [ value, setValue ] = useState<Option>(options.find(option => option.value === valueActual) || {value: '', option: placeHolder})
     const [ isOpen, setIsOpen ] = useState<boolean>(false)
+    const selectRef = useRef<HTMLDivElement>(null);
+
 
     const selectOption = (opt: Option) => {
         setValue(opt);
-        console.log(opt.value)
         onSelect(opt.value);
     }
 
@@ -29,8 +31,22 @@ const Select = ({ options, placeHolder, onSelect, disabled }: SelectProps) => {
             setIsOpen(!isOpen);
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className={style.select + " " + (disabled ? style.disabled : "")} onClick={() => openOptions()}>
+        <div ref={selectRef} className={style.select + " " + (disabled ? style.disabled : "")} onClick={() => openOptions()}>
             <div className={style.visiblePart}>
                 <div className={style.placeholder}>{value.option}</div>
                 <svg className={style.selectSVG + " " + (isOpen ? style.rotate : "")} width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +55,9 @@ const Select = ({ options, placeHolder, onSelect, disabled }: SelectProps) => {
             </div>
             {isOpen &&
                 <div className={style.options}>
-                    <div className={style.option} onClick={() => selectOption({option: placeHolder, value: ''})}>{placeHolder}</div>
+                    {placeHolder &&
+                        <div className={style.option} onClick={() => selectOption({option: placeHolder, value: ''})}>{placeHolder}</div>
+                    }
                     {options.map((option, i) => (
                         <div onClick={() => selectOption(option)} className={style.option} key={i}>{option.option}</div>
                     ))

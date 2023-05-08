@@ -13,7 +13,14 @@
     cursor: not-allowed;
   }
 
+  .placeholder {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .selectSVG {
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 2%;
@@ -39,6 +46,7 @@
     max-height: 200px;
     overflow: auto;
     z-index: 2;
+    overflow-x: hidden;
 
     .option {
       padding: 3px 50px;

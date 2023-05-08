@@ -40,14 +40,17 @@
     }
 
     .params {
-      height: 100px;
+      //height: 100px;
+      gap: 10px 0;
       margin-top: 20px;
+      margin-bottom: 10px;
       display: flex;
       align-items: flex-start;
       flex-wrap: wrap;
 
       .param {
         display: flex;
+        height: 35px;
         align-items: center;
         margin-right: 19px;
         font-size: 1.2em;
@@ -65,4 +68,15 @@
       }
     }
   }
+
+  @media screen and (max-width: $medium) {
+    grid-template-columns: 1fr;
+
+    .estate {
+      p {
+        height: 50px;
+      }
+    }
+  }
+
 }

@@ -4,7 +4,7 @@ import { IEstate } from '../../../types';
 import Slider from 'react-slick';
 import styles from './slider.module.scss';
 import Link from "next/link";
-import { City, District, LandArea, Floor, LivingArea, Rooms } from '../../../assets/params';
+import { City, District, LandArea, Floor, LivingArea, Rooms, GateHeight, Series, Size } from '../../../assets/params';
 
 
 const settings = {
@@ -88,6 +88,9 @@ export default function SliderSection({ data }: SliderSectionProps) {
                                 {estate.floor && (<div className={styles.param}><span><Floor /></span>{estate.floor} {estate.type.en === "Houses" ? t("params:floors") : t("params:floor")}</div>)}
                                 {estate.rooms && (<div className={styles.param}><span><Rooms /></span>{estate.rooms} {t("params:rooms")}</div>)}
                                 {estate.livingArea && (<div className={styles.param}><span><LivingArea /></span>{estate.livingArea} m²</div>)}
+                                {estate.series && (<div className={styles.param}><span><Series /></span>{estate.series[i18n.language]}</div>)}
+                                {estate.gateHeight && (<div className={styles.param}><span><GateHeight /></span>{estate.gateHeight} m</div>)}
+                                {estate.size && (<div className={styles.param}><span><Size /></span>{estate.size}</div>)}
                             </div>
                             <div className={styles.progress}>
                                 <progress value={time} max={settings.autoplaySpeed}/>

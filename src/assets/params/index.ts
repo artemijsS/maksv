@@ -4,3 +4,6 @@ export {default as LandArea} from './landArea';
 export {default as Floor} from './floor';
 export {default as Rooms} from './rooms';
 export {default as LivingArea} from './livingArea';
+export {default as GateHeight} from './gateHeight';
+export {default as Series} from './series';
+export {default as Size} from './size';
