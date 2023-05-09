@@ -7,17 +7,17 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 
 interface DescriptionProps {
-    estate: IEstate
+    estate: IEstate,
+    googleApi: string
 }
 const containerStyle = {
     width: '100%',
     height: '100%'
 };
 
-export default function Description({ estate }: DescriptionProps) {
+export default function Description({ estate, googleApi }: DescriptionProps) {
 
     const { t, i18n } = useTranslation();
-    const apiKey = '';
 
     return (
         <div className={styles.descriptionSection + " wrapper"}>
@@ -27,7 +27,7 @@ export default function Description({ estate }: DescriptionProps) {
             <p dangerouslySetInnerHTML={{__html: estate.description[i18n.language]}}/>
             <h3>Objekta lokācija</h3>
             <div className={styles.map}>
-                <LoadScript googleMapsApiKey={apiKey}>
+                <LoadScript googleMapsApiKey={googleApi}>
                     <GoogleMap
                         mapContainerStyle={containerStyle}
                         center={{ lat: estate.location.lat, lng: estate.location.lng }}

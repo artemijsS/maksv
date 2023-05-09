@@ -11,10 +11,11 @@ import SimilarObjects from "../../components/estate/info/similarObjects/SimilarO
 import axios from "axios";
 
 interface EstatePageProps {
-    estate: IEstate
+    estate: IEstate,
+    googleApi: string
 }
 
-export default function EstatePage({ estate }: EstatePageProps) {
+export default function EstatePage({ estate, googleApi }: EstatePageProps) {
 
     const { t, i18n } = useTranslation();
 
@@ -24,7 +25,7 @@ export default function EstatePage({ estate }: EstatePageProps) {
             <div className={"minusHeader"}>
                 <HeaderSection estate={estate} />
                 <ObjectSection estate={estate} />
-                <Description estate={estate} />
+                <Description estate={estate} googleApi={googleApi} />
                 <SimilarObjects estate={estate} />
             </div>
         </MainContainer>
@@ -43,6 +44,7 @@ export async function getServerSideProps({ locale, params }: GetServerSidePropsC
             props: {
                 ...(await serverSideTranslations(locale as string)),
                 estate,
+                googleApi: process.env.GOOGLE_API
             },
         };
     } catch (error) {
