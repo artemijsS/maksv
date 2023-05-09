@@ -101,6 +101,9 @@ const estateGet = async (req: NextApiRequest, res: NextApiResponse) => {
         if (req.query.series)
             query["series.en"] = req.query.series;
 
+        if (req.query.no)
+            query["_id"] = { $ne: req.query.no };
+
         let sortKey: string = 'createdAt';
         let sortVal: SortOrder = 'desc';
         if (req.query.sort) {

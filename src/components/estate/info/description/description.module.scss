@@ -1,0 +1,30 @@
+@import "src/styles/global";
+
+.descriptionSection {
+  color: $bg-dark;
+
+  h2 {
+    font-weight: bold;
+    color: $bg-dark;
+    margin-bottom: 30px;
+    margin-top: 60px;
+    font-size: 3.5em;
+  }
+
+  p {
+    color: $bg-dark;
+  }
+
+  h3 {
+    color: $bg-dark;
+    font-weight: bold;
+    margin-top: 80px;
+    margin-bottom: 30px;
+    font-size: 3em;
+  }
+
+  .map {
+    width: 100%;
+    height: 550px;
+  }
+}

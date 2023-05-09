@@ -14,7 +14,7 @@
     flex-direction: column;
     box-sizing: border-box;
     width: 100%;
-
+    transition: all .2s ease-in-out;
 
     img {
       width: 100%;
@@ -65,6 +65,17 @@
           }
           margin-right: 10px;
         }
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.30);
+      transform: scale(1.02);
+      color: unset;
+
+      h3 {
+        color: $bg-highlighted;
       }
     }
   }

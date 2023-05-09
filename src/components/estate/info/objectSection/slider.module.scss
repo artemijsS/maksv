@@ -1,0 +1,25 @@
+@import "src/styles/global";
+
+.sliderSection {
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 1250px) {
+    max-width: 600px;
+  }
+
+  .right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    z-index: 2;
+  }
+  .left {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    z-index: 2;
+  }
+
+}

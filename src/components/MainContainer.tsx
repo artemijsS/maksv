@@ -9,10 +9,11 @@ interface MainContainer {
     children?: React.ReactNode,
     title?: string,
     description?: string,
-    keywords?: string
+    keywords?: string,
+    headerBackgroundDefault?: boolean
 }
 
-const MainContainer = ({ children, title, description, keywords }: MainContainer) => {
+const MainContainer = ({ children, title, description, keywords, headerBackgroundDefault }: MainContainer) => {
 
     const router = useRouter();
 
@@ -37,7 +38,7 @@ const MainContainer = ({ children, title, description, keywords }: MainContainer
                 <link rel="alternate" hrefLang="ru" href={"https://www.maksv.lv/ru" + router.pathname}/>
 
             </Head>
-            <Header />
+            <Header backgroundDefault={headerBackgroundDefault} />
             <div className={styles.mainBlock}>
                 {children}
             </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import style from './pagination.module.scss';
+import { useTranslation } from "next-i18next";
 
 interface PaginationProps {
     totalPages: number,
@@ -8,6 +9,9 @@ interface PaginationProps {
 }
 
 export default  function Pagination ({ totalPages, activePage, onPageChange }: PaginationProps) {
+
+    const { t } = useTranslation();
+
     const pagesToShow = 5
 
     const handleClick = (page: number) => {
@@ -58,7 +62,7 @@ export default  function Pagination ({ totalPages, activePage, onPageChange }: P
                             disabled={activePage === 1}
                             onClick={() => handleClick(activePage - 1)}
                         >
-                            Back
+                            {t("estatePage:pagination.back")}
                         </button>
                     }
                     {activePage !== totalPages &&
@@ -69,11 +73,11 @@ export default  function Pagination ({ totalPages, activePage, onPageChange }: P
                             disabled={activePage === totalPages}
                             onClick={() => handleClick(activePage + 1)}
                         >
-                            Next
+                            {t("estatePage:pagination.next")}
                         </button>
                     }
                     <div className="ml-2 text-gray-500">
-                        Page {activePage} of {totalPages}
+                        {t("estatePage:pagination.page")}{activePage}{t("estatePage:pagination.of")}{totalPages}
                     </div>
                 </div>
 

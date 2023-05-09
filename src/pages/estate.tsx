@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import MainContainer from "../components/MainContainer";
@@ -24,6 +24,8 @@ export default function Estate() {
         size: 6
     });
     const [filter, setFilter] = useState<Filter>(emptyFilter);
+    const estatesSectionRef = useRef<HTMLDivElement>(null);
+
 
     useEffect(() => {
         setLoading(true);
@@ -36,12 +38,26 @@ export default function Estate() {
         }).finally(() => setLoading(false))
     }, [pagination.page, filter])
 
+    const pageChange = (page: number) => {
+        setPagination({ ...pagination, page: page - 1 });
+        if (estatesSectionRef.current) {
+            const offset = 200;
+            const elementPosition = estatesSectionRef.current.offsetTop - offset;
+
+            window.scrollTo({
+                top: elementPosition,
+                behavior: "smooth",
+            });
+        }
+    }
+
+
     return (
         <MainContainer>
             <HeaderSection />
             <FilterSection onFilterSubmit={(filter: Filter) => {setFilter(filter); setPagination({...pagination, page: 0})}}/>
-            <Estates estate={estates} loading={loading}/>
-            <Pagination totalPages={pagination.pages} activePage={pagination.page + 1} onPageChange={(page: number) => setPagination({ ...pagination, page: page - 1 })}/>
+            <Estates estate={estates} loading={loading} ref={estatesSectionRef}/>
+            <Pagination totalPages={pagination.pages} activePage={pagination.page + 1} onPageChange={(page: number) => pageChange(page)}/>
         </MainContainer>
     )
 }
@@ -56,7 +72,7 @@ export async function getStaticProps({ locale }: any) {
 
 const emptyFilter = {
     search: '',
-    rent: false,
+    rent: null,
     type: '',
     city: '',
     district: '',

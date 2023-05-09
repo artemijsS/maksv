@@ -1,24 +1,32 @@
-import React, { forwardRef } from "react";
-import style from './estates.module.scss'
+import React, {useEffect, useState} from "react";
 import { useTranslation } from "next-i18next";
-import {City, District, LandArea, Floor, LivingArea, Rooms, Series, GateHeight, Size} from '../../../assets/params';
-import { IEstate } from '../../../types';
+import style from "./similarObjects.module.scss";
+import { IEstate } from "../../../../types";
+import { City, District, Floor, GateHeight, LandArea, LivingArea, Rooms, Series, Size } from "../../../../assets/params";
 import Link from "next/link";
+import axios from "axios";
 
-interface EstatesProps {
-    estate: IEstate[],
-    loading: boolean
+interface SimilarObjectsProps {
+    estate: IEstate
 }
 
-const Estates = forwardRef<HTMLDivElement, EstatesProps>(
-({ estate, loading }, ref) => {
+export default function SimilarObjects({ estate }: SimilarObjectsProps) {
 
     const { t, i18n } = useTranslation();
 
+    const [estates, setEstates] = useState<IEstate[]>([]);
+
+    useEffect(() => {
+        axios.get(`estate?size=3&type=${estate.type.en}&no=${estate._id}`).then(res => {
+            setEstates(res.data.data);
+        })
+    }, [])
+
     return (
-        <div ref={ref} className={style.estates + " wrapper"}>
-            {
-                estate.map((estate: IEstate, i: number) => (
+        <div className={style.similarSection + " wrapper"}>
+            <h3>Lidzigie objekti</h3>
+            <div className={style.estates}>
+                {estates.map((estate: IEstate, i: number) => (
                     <Link className={style.estate} key={i} href={{ pathname: `/estate/[id]`, query: { id: estate._id } }}>
                         <img src={estate.mainImage} alt={"Estate Image"} />
                         <p className={style.pSmall}>{estate.type[i18n.language]}</p>
@@ -37,9 +45,9 @@ const Estates = forwardRef<HTMLDivElement, EstatesProps>(
                         </div>
                     </Link>
                 ))
-            }
+                }
+
+            </div>
         </div>
     )
-})
-
-export default Estates;
+}

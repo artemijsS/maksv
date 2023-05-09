@@ -49,3 +49,11 @@ a:hover {
     margin: 0;
     padding: 0;
 }
+
+.minusHeader {
+    padding-top: 80px;
+}
+
+.image-gallery-icon {
+    /*display: none;*/
+}
