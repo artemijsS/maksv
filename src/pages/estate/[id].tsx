@@ -17,9 +17,6 @@ interface EstatePageProps {
 
 export default function EstatePage({ estate, googleApi }: EstatePageProps) {
 
-    const { t, i18n } = useTranslation();
-
-
     return (
         <MainContainer headerBackgroundDefault={true}>
             <div className={"minusHeader"}>
