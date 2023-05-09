@@ -17,7 +17,7 @@ const containerStyle = {
 export default function Description({ estate }: DescriptionProps) {
 
     const { t, i18n } = useTranslation();
-    const apiKey = 'AIzaSyB8QLWxZhK9WcZ_c7-umTCYZZKkZRgD1Jg';
+    const apiKey = '';
 
     return (
         <div className={styles.descriptionSection + " wrapper"}>
