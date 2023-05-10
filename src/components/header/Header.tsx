@@ -53,7 +53,7 @@ const Header = ({ backgroundDefault }: HeaderProps) => {
     }
 
     return (
-        <header className={style.headerContainer} style={{ backgroundColor: `${backgroundDefault ? "#FFF" : background ? background : 'transparent'}` }}>
+        <header className={style.headerContainer} style={{ backgroundColor: `${backgroundDefault ? "#FFF" : background ? background : 'transparent'}`, filter: `${background ? 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' : 'initial'}` }}>
             <div className={"wrapper " + style.header}>
                 <Link href={"/"} className={style.logo}>
                     <Image src={Logo} alt={"logo"}/>
