@@ -54,6 +54,7 @@ a:hover {
     padding-top: 80px;
 }
 
-.image-gallery-icon {
-    /*display: none;*/
+.image-gallery-thumbnail-image {
+    height: 50px !important; /* Set the desired height */
+    object-fit: cover;
 }

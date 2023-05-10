@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -16,6 +16,10 @@ interface EstatePageProps {
 }
 
 export default function EstatePage({ estate, googleApi }: EstatePageProps) {
+
+    useEffect(() => {
+        console.log(1)
+    }, [])
 
     return (
         <MainContainer headerBackgroundDefault={true}>

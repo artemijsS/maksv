@@ -32,18 +32,18 @@ export default function SliderSection({ images }: SliderSectionProps) {
 
 const CustomLeftNav = ({ onClick }: any) => (
     <button className={styles.left} onClick={onClick}>
-        <svg width="53" height="41" viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 20L10 14.2265V25.7735L0 20ZM33 21L9 21V19L33 19V21Z" fill="white"/>
-            <path d="M14 20.5C14 31.293 22.5297 40 33 40C43.4703 40 52 31.293 52 20.5C52 9.70703 43.4703 1 33 1C22.5297 1 14 9.70703 14 20.5Z" stroke="white" strokeWidth="2"/>
+        <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 12L10 17.7735L10 6.2265L0 12ZM26 11L9 11L9 13L26 13L26 11Z" fill="white"/>
+            <path d="M16 12C16 5.88433 20.7407 1 26.5 1C32.2593 1 37 5.88433 37 12C37 18.1157 32.2593 23 26.5 23C20.7407 23 16 18.1157 16 12Z" stroke="white" strokeWidth="2"/>
         </svg>
     </button>
 );
 
 const CustomRightNav = ({ onClick }: any) => (
     <button className={styles.right} onClick={onClick}>
-        <svg width="53" height="41" viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M53 20L43 14.2265V25.7735L53 20ZM20 21L44 21V19L20 19V21Z" fill="white"/>
-            <path d="M39 20.5C39 31.293 30.4703 40 20 40C9.52972 40 1 31.293 1 20.5C1 9.70703 9.52972 1 20 1C30.4703 1 39 9.70703 39 20.5Z" stroke="white" strokeWidth="2"/>
+        <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 12L28 6.2265V17.7735L38 12ZM12 13L29 13V11L12 11V13Z" fill="white"/>
+            <path d="M22 12C22 18.1157 17.2593 23 11.5 23C5.74069 23 1 18.1157 1 12C1 5.88433 5.74069 1 11.5 1C17.2593 1 22 5.88433 22 12Z" stroke="white" strokeWidth="2"/>
         </svg>
     </button>
 );

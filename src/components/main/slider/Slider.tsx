@@ -72,7 +72,7 @@ export default function SliderSection({ data }: SliderSectionProps) {
                         <img src={estate.mainImage} alt={"estate"}/>
                         <div className={styles.buttonBlock + " wrapper"}>
                             <h1>{t("homePage:slider.h1")}</h1>
-                            <Link href={"/estate"} tabIndex={-1} className={styles.button}>{t("homePage:button.info")}</Link>
+                            <Link href={`/estate/${estate._id}`} tabIndex={-1} className={styles.button}>{t("homePage:button.info")}</Link>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.name}>

@@ -22,7 +22,7 @@ const ObjectSection = ({ estate }: ObjectSectionProps) => {
                     <Slider images={[estate.mainImage, ...estate.images]} />
                 </div>
                 <div className={style.contactUs}>
-                    <h3>Iepatikas objekts?</h3>
+                    <h3>{t("estatePage:info.contactUs.title")}</h3>
                     <div>
                         <p>
                             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@ const ObjectSection = ({ estate }: ObjectSectionProps) => {
                             <Link href={"https://wa.me/+37167818686"}>+371 67818686</Link>
                         </p>
                     </div>
-                    <Link href={"/contacts"} className={style.button}>Sāzinies ar mūms</Link>
+                    <Link href={"/contacts"} className={style.button}>{t("homePage:button.contactUs")}</Link>
                 </div>
             </div>
         </div>

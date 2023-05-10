@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import style from './estates.module.scss'
 import { useTranslation } from "next-i18next";
-import {City, District, LandArea, Floor, LivingArea, Rooms, Series, GateHeight, Size} from '../../../assets/params';
+import { City, District, LandArea, Floor, LivingArea, Rooms, Series, GateHeight, Size } from '../../../assets/params';
 import { IEstate } from '../../../types';
 import Link from "next/link";
 

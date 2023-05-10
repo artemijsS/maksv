@@ -46,5 +46,13 @@
     "next": "Next",
     "page": "Page ",
     "of": " of "
+  },
+  "info": {
+    "contactUs": {
+      "title": "Interested?"
+    },
+    "description": "Description",
+    "location": "Location",
+    "similar": "Similar objects"
   }
 }

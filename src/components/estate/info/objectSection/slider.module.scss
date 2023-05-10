@@ -10,16 +10,27 @@
   }
 
   .right {
+    display: none;
     position: absolute;
     right: 20px;
     top: 50%;
     z-index: 2;
   }
+
   .left {
+    display: none;
     position: absolute;
     left: 20px;
     top: 50%;
     z-index: 2;
   }
 
+  @media screen and (max-width: $medium) {
+    .right, .left {
+      display: block;
+    }
+
+    max-width: unset;
+    width: 100%;
+  }
 }
