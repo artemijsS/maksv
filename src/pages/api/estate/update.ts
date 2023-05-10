@@ -213,6 +213,10 @@ const changeDescription = async (estate: any, req: NextApiRequest, res: NextApiR
     if (!isValidLangText(estate.description))
         return res.status(400).json({ message: 'Description is mandatory' });
 
+    estate.description.en = estate.description.en.replace(/\n/g, "<br/>");
+    estate.description.ru = estate.description.ru.replace(/\n/g, "<br/>");
+    estate.description.lv = estate.description.lv.replace(/\n/g, "<br/>");
+
     const newEstate = await Estate.findOneAndUpdate({ _id: estate._id }, { description: estate.description })
     return res.status(200).json({ newEstate });
 }

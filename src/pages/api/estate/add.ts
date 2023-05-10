@@ -68,6 +68,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 estate.floor = Number(estate.floor)
                 estate.gateHeight = Number(estate.gateHeight)
 
+                estate.description.en = estate.description.en.replace(/\n/g, "<br/>");
+                estate.description.ru = estate.description.ru.replace(/\n/g, "<br/>");
+                estate.description.lv = estate.description.lv.replace(/\n/g, "<br/>");
+
                 if (type === "Houses") {
                     if (!validateHouse(estate))
                         return res.status(400).json({ message: "Invalid house data" })
