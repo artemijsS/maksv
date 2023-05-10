@@ -54,5 +54,6 @@
     "description": "Apraksts",
     "location": "Lokācija",
     "similar": "Līdzīgi objekti"
-  }
+  },
+  "empty": "Nav atrasts neviens rezultāts Jūsu pieprasījumam"
 }

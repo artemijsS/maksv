@@ -54,5 +54,6 @@
     "description": "Description",
     "location": "Location",
     "similar": "Similar objects"
-  }
+  },
+  "empty": "Nothing was found for your request"
 }

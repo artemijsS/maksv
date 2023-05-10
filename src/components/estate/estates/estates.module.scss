@@ -1,5 +1,15 @@
 @import "src/styles/global";
 
+.empty {
+  display: flex;
+  align-items: center;
+
+  h3 {
+    margin-left: 50px;
+    font-size: 1.9em;
+  }
+}
+
 .estates {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -32,6 +42,20 @@
     .pSmall {
       margin-top: 20px;
       height: 30px;
+    }
+
+    &.minusPad {
+      background-color: unset;
+      box-shadow: unset;
+      padding: unset;
+      position: relative;
+      height: 500px;
+
+      &:hover {
+        box-shadow: unset;
+        transform: unset;
+        cursor: default;
+      }
     }
 
     h3 {

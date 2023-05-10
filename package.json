@@ -31,6 +31,7 @@
     "react-dom": "18.2.0",
     "react-drag-n-drop-image": "^1.2.5",
     "react-image-gallery": "^1.2.11",
+    "react-loading-skeleton": "^3.3.1",
     "react-slick": "^0.29.0",
     "react-toastify": "^9.1.2",
     "redux": "^4.2.1",

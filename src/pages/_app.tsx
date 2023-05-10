@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-image-gallery/styles/css/image-gallery.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 import { ToastContainer } from 'react-toastify';
 import { appWithTranslation } from 'next-i18next';
 import Cookies from 'js-cookie';

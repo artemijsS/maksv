@@ -3,7 +3,9 @@ import style from './estates.module.scss'
 import { useTranslation } from "next-i18next";
 import { City, District, LandArea, Floor, LivingArea, Rooms, Series, GateHeight, Size } from '../../../assets/params';
 import { IEstate } from '../../../types';
+import Skeleton from 'react-loading-skeleton'
 import Link from "next/link";
+import {number} from "prop-types";
 
 interface EstatesProps {
     estate: IEstate[],
@@ -14,6 +16,32 @@ const Estates = forwardRef<HTMLDivElement, EstatesProps>(
 ({ estate, loading }, ref) => {
 
     const { t, i18n } = useTranslation();
+
+    if (loading)
+        return (
+            <div ref={ref} className={style.estates + " wrapper"}>
+                {
+                    [1,2,3,4,5,6].map((i: number) => (
+                        <div key={i} className={style.estate + " " + style.minusPad}>
+                            <Skeleton width="100%" height="500px" />
+                        </div>
+                    ))
+                }
+            </div>
+        )
+
+    if (estate.length === 0)
+        return (
+            <div className={style.empty + " wrapper"}>
+                <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="28.5" cy="28.5" r="27" stroke="#D9D9D9" strokeWidth="3"/>
+                    <ellipse cx="18" cy="22" rx="4" ry="5" fill="#D9D9D9"/>
+                    <ellipse cx="38" cy="22" rx="4" ry="5" fill="#D9D9D9"/>
+                    <path d="M44.4239 34.9005L13.5592 42.4747" stroke="#D9D9D9" strokeWidth="3"/>
+                </svg>
+                <h3>{t("estatePage:empty")}</h3>
+            </div>
+        )
 
     return (
         <div ref={ref} className={style.estates + " wrapper"}>
