@@ -17,9 +17,6 @@ interface EstatePageProps {
 
 export default function EstatePage({ estate, googleApi }: EstatePageProps) {
 
-    useEffect(() => {
-        console.log(1)
-    }, [])
 
     return (
         <MainContainer headerBackgroundDefault={true}>

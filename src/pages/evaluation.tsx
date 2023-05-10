@@ -9,11 +9,8 @@ export default function Evaluation() {
     const { t } = useTranslation();
 
     return (
-        <MainContainer>
-            <div className={"wrapper"}>
-                <p>Evaluation</p>
-            </div>
-
+        <MainContainer headerBackgroundDefault={true}>
+            <div className={"minusHeader"}></div>
         </MainContainer>
     )
 }

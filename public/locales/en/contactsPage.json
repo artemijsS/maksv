@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Our Contacts",
+    "p": "We will assist you in all matters within <br/> our competence"
+  },
+  "p": "We await your call and are always ready to help!",
+  "address": "Address",
+  "tel": "Phone",
+  "email": "E-mail",
+  "form": {
+    "title": "Feel Free to Contact & Reach Us",
+    "name": "Name / Surname*",
+    "namePlaceholder": "Your Name / Surname",
+    "phone": "Phone",
+    "phonePlaceholder": "Your Phone Number",
+    "email": "Email*",
+    "emailPlaceholder": "Your email",
+    "category": "Category*",
+    "categoryPlaceholder": "Select Category",
+    "categorySolar": "Solar Panels",
+    "categoryCarports": "Carports",
+    "categoryCleaning": "Cleaning",
+    "categoryOther": "Other",
+    "message": "Message*",
+    "messagePlaceholder": "Let us know about your dreams",
+    "button": "SEND",
+    "buttonLoading": "LOADING",
+    "buttonSend": "SENT",
+    "buttonError": "ERROR"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Наши контакты",
+    "p": "Мы поможем вам по всем вопросам, входящим <br/> в нашу компетенцию"
+  },
+  "p": "Мы ждем вашего звонка и всегда готовы помочь!",
+  "address": "Адрес",
+  "tel": "Телефон",
+  "email": "E-mail",
+  "form": {
+    "title": "Связаться с нами",
+    "name": "Имя / Фамилия*",
+    "namePlaceholder": "Ваше Имя / Фамилия",
+    "phone": "Телефон",
+    "phonePlaceholder": "Ваш номер телефона",
+    "email": "Email*",
+    "emailPlaceholder": "Ваш email",
+    "category": "Категория*",
+    "categoryPlaceholder": "Выберите Категорию",
+    "categorySolar": "Солнечные панели",
+    "categoryCarports": "Карпорты",
+    "categoryCleaning": "Чистка",
+    "categoryOther": "Другое",
+    "message": "Сообщение*",
+    "messagePlaceholder": "Дайте нам знать о ваших мечтах",
+    "button": "ОТПРАВИТЬ",
+    "buttonLoading": "ЗАГРУЗКА",
+    "buttonSend": "ОТПРАВЛЕННО",
+    "buttonError": "ОШИБКА"
+  }
+}
