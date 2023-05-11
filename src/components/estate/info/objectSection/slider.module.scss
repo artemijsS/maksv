@@ -30,7 +30,15 @@
       display: block;
     }
 
-    max-width: unset;
+    max-width: calc(100vw - 60px);
     width: 100%;
+  }
+  @media screen and (max-width: $small) {
+    .right, .left {
+      display: block;
+    }
+
+    max-width: calc(100vw - 20px);
+    min-width: 310px;
   }
 }

@@ -66,5 +66,32 @@
     "new": "New project",
     "park": "If extra parking or storage",
     "future2": "If future valuation"
+  },
+  "info": {
+    "title": "How to order",
+    "s1": "Request for assessment",
+    "s2": "Submission of documents",
+    "s3": "Land Registry extract for the apartment",
+    "s4": "Cadastral survey file of the group of premises",
+    "s5": "For a plot of land, extract from the Land Registry",
+    "s6": "Land boundary plan",
+    "h3": "For the valuation of the dwelling",
+    "s7": "Land register extract",
+    "s8": "Land boundary plan",
+    "s9": "Cadastral survey file of the structure",
+    "p": "In the event that the layout does not correspond to the existing layout, a redesign project or a simplified renovation confirmation card is required",
+    "s10": "Organisation of the inspection of the object (handing over the contact details of the seller or his supervisor to the assessors or the client himself arranging the time of the inspection)",
+    "s11": "Payment of the work, according to the invoice presented",
+    "s12": "Preparation of the valuation",
+    "s13": "Certification of the report",
+    "s14": "Sending the work to the client’s e-mail address and/or to the credit institution"
+  },
+  "ach": {
+    "title": "Our achievements",
+    "client": "Satisfied customers",
+    "projects": "Completed projects",
+    "time": "Time spent",
+    "sug": "Recommendations made",
+    "hours": "h"
   }
 }

@@ -102,4 +102,11 @@
 
   }
 
+  @media screen and (max-width: $medium) {
+    h3 {
+      color: $bg-dark;
+      margin-top: 50px;
+    }
+  }
+
 }

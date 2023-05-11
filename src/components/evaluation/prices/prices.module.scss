@@ -51,4 +51,8 @@
 
     }
   }
+
+  @media screen and (max-width: $medium) {
+    margin-top: 50px;
+  }
 }
