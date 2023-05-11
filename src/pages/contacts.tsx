@@ -35,7 +35,7 @@ export async function getStaticProps({ locale }: any) {
     return {
         props: {
             ...(await serverSideTranslations(locale)),
-            emailJSPublic: process.env.EMAIL_JS_PUBLIC
+            emailJSPublic: process.env.EMAIL_JS_PUBLIC || ""
         },
     };
 }
