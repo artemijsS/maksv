@@ -4,6 +4,8 @@ import Slider from 'react-slick';
 import styles from './sliderOffer.module.scss';
 import Link from "next/link";
 import Estate from "../../../assets/offer/estate.png";
+import Estate2 from "../../../assets/offer/estate2.png";
+import Estate3 from "../../../assets/offer/estate3.png";
 import Image from "next/image";
 
 
@@ -63,7 +65,7 @@ export default function SliderOffer() {
                     </div>
                     <div className={"wrapper"}>
                         <div className={styles.slide}>
-                            <Image src={Estate} alt="Estate"/>
+                            <Image src={Estate2} alt="Estate"/>
                             <div className={styles.info}>
                                 <h3>{t("homePage:offer.evaluation.h3")}</h3>
                                 <p>{t("homePage:offer.evaluation.p")}</p>
@@ -73,7 +75,7 @@ export default function SliderOffer() {
                     </div>
                     <div className={"wrapper"}>
                         <div className={styles.slide}>
-                            <Image src={Estate} alt="Estate"/>
+                            <Image src={Estate3} alt="Estate"/>
                             <div className={styles.info}>
                                 <h3>{t("homePage:offer.construction.h3")}</h3>
                                 <p>{t("homePage:offer.construction.p")}</p>

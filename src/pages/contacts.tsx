@@ -5,6 +5,7 @@ import MainContainer from "../components/MainContainer";
 import HeaderSection from "../components/contacts/headerSection/HeaderSection";
 import ContactsSection from "../components/contacts/contacts/Contacts";
 import Form from "../components/contacts/form/Form";
+import HeaderImage from '../assets/contacts/headerSection.png';
 
 
 interface ContactsProps {
@@ -18,7 +19,11 @@ export default function Contacts({ emailJSPublic }: ContactsProps) {
     return (
         <MainContainer headerBackgroundDefault={true}>
             <div className={"minusHeader"}>
-                <HeaderSection />
+                <HeaderSection
+                    title={t("contactsPage:header.title")}
+                    p={t("contactsPage:header.p")}
+                    image={HeaderImage}
+                />
                 <ContactsSection />
                 <Form emailJSPublic={emailJSPublic} />
             </div>

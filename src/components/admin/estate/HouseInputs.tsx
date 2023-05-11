@@ -52,6 +52,7 @@ const HouseInputs = ({ onParamChange }: IHouseInputs) => {
                 required={true}
                 type={"number"}
                 min={0}
+                step={0.01}
                 name="houseLivingArea"
                 id="houseLivingArea"
                 className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -64,6 +65,7 @@ const HouseInputs = ({ onParamChange }: IHouseInputs) => {
                 required={true}
                 type={"number"}
                 min={0}
+                step={0.01}
                 name="houseLandArea"
                 id="houseLandArea"
                 className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

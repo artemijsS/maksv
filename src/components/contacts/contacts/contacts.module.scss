@@ -21,9 +21,14 @@
       gap: 30px;
 
       .block {
-        display: flex;
-        align-items: center;
-        gap: 30px;
+
+        a {
+          display: inline-flex;
+          align-items: center;
+          gap: 30px;
+          width: content-box;
+        }
+
 
         h3 {
           font-size: 2.1em;

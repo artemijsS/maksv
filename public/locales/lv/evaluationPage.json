@@ -1,0 +1,70 @@
+{
+  "header": {
+    "section": {
+      "title": "Īpašuma novērtēšana",
+      "p": "Maks V vērtēšana sniedz nekustamā īpašuma <br/> vērtēšanas pakalpojumus"
+    },
+    "eval": {
+      "title": "Kvalitatīvais novērtējums",
+      "h3": "Izpratne par vērtību: kvalitatīvā novērtējuma nozīme",
+      "p1": "Maks V vērtēšana sniedz nekustamā īpašuma vērtēšanas pakalpojumus un ir Latvijas Īpašumu vērtētāju asociācijas (LĪVA) asociētais biedrs.",
+      "p2": "Mēs pēc iespējas ātrāk sagatavojam augstas kvalitātes neatkarīgus nekustamā īpašuma novērtējumus. Termiņš ir atkarīgs no daudziem faktoriem: īpašuma atrašanās vietas, tā veida, specifikas, dokumentācijas pieejamības utt."
+    },
+    "exp": {
+      "title": "Plaša pieredze",
+      "h3": "Plaša pieredze",
+      "p1": "Pateicoties mūsu lielajai pieredzei, mūsu speciālisti pārzina visas šī procesa īpatnības un iespējamās nepilnības. Tas ļauj mums veikt īpašuma novērtēšanu pēc iespējas efektīvāk."
+    },
+    "sug": {
+      "title": "Detalizēti padomi",
+      "h3": "Detalizēti padomi",
+      "p1": "Sazinoties ar mums, jūs saņemsiet detalizētu konsultāciju. Mēs atbildēsim uz visiem jūsu jautājumiem un sniegsim jums nepieciešamo dokumentu sarakstu."
+    },
+    "title": "Par mums",
+    "down": {
+      "title": "Maks V vērtēšana sniedz nekustamā<br/>īpašuma vērtēšanas pakalpojumus.",
+      "p": "Maks V vērtēšana nodrošina kvalitatīvu visu veidu nekustamo īpašumu vērtēšanu visā Latvijā. Mūsu klienti ir fiziskas un juridiskas personas. Vērtējumu kvalitāti apliecina Latvijas Vērtētāju asociācijas izsniegts kompetences sertifikāts. Saskaņā ar Latvijas standartiem (LVS-401: 2013) nekustamā īpašuma vērtēšana tiek veikta objektīvi un optimālā laikā."
+    }
+  },
+  "services": {
+    "title": "Pakalpojumi",
+    "p": "Mūsu uzņēmuma sniegto nekustamā īpašuma vērtēšanas pakalpojumu saraksts.",
+    "first": {
+      "h3": "Tarifi un termiņi",
+      "p": "Īpašuma vērtēšanas pakalpojumu saraksts, <br/> izmaksas un termiņi."
+    },
+    "second": {
+      "h3": "Novērtēšanas mērķis",
+      "p": "Situācijas, kurās nepieciešams īpašuma <br/> novērtējums."
+    },
+    "third": {
+      "h3": "Ar ko mēs strādājam",
+      "p": "Iestādes, kas pieņem mūsu uzņēmuma <br/> novērtējumus: Seb , BigBank, Uzņēmuma <br/> reģistrs."
+    },
+    "fourth": {
+      "h3": "Mēs novērtējam",
+      "p": "Nekustamā īpašuma veidi, kurus mēs varam <br/> novērtēt."
+    }
+  },
+  "prices": {
+    "title": "Cenas",
+    "workDays": "darba dienas",
+    "ser": "Pakalpojums",
+    "price": "Cena",
+    "range": "Termiņš",
+    "apbuve": "Apbūves gabals",
+    "lauk": "Lauksaimniecības zemesgabals",
+    "zeme": "Zeme komercapbūvei",
+    "lauk2": "Lauku viensēta",
+    "h100": "Dzīvojamā (dārza) māja līdz 100 kvm",
+    "h200": "Dzīvojamā (dārza) māja 100-200 kvm",
+    "h300": "Dzīvojamā māja 200-300 kvm",
+    "h500": "Dzīvojamā māja 300-500 kvm",
+    "future": "Dzīvojamās mājas nākotnes (pie attiecīgas mājas novērtējuma summas)",
+    "flat": "Dzīvoklis sērijveida",
+    "spec": "Specprojektu dzīvoklis",
+    "new": "Jaunais projekts",
+    "park": "Ja papildus stāvvieta vai noliktava",
+    "future2": "Ja nākotnes novērtējums"
+  }
+}

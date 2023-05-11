@@ -340,6 +340,7 @@ export default function EstateAdd({ onCloseClick, onSave }: EstateAddProps) {
                                         required={true}
                                         type={"number"}
                                         min={0}
+                                        step={0.01}
                                         name="landArea"
                                         id="landArea"
                                         className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -370,6 +371,7 @@ export default function EstateAdd({ onCloseClick, onSave }: EstateAddProps) {
                                         required={true}
                                         type={"number"}
                                         min={0}
+                                        step={0.01}
                                         name="landArea"
                                         id="landArea"
                                         className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -388,6 +390,7 @@ export default function EstateAdd({ onCloseClick, onSave }: EstateAddProps) {
                                     required={true}
                                     type={"number"}
                                     min={0}
+                                    step={0.01}
                                     name="landArea"
                                     id="landArea"
                                     className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
