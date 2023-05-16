@@ -7,9 +7,9 @@ import Footer from './footer/Footer';
 
 interface MainContainer {
     children?: React.ReactNode,
-    title?: string,
-    description?: string,
-    keywords?: string,
+    title?: string | null,
+    description?: string | null,
+    keywords?: string | null,
     headerBackgroundDefault?: boolean
 }
 
