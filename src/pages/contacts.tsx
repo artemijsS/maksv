@@ -17,7 +17,12 @@ export default function Contacts({ emailJSPublic }: ContactsProps) {
     const { t } = useTranslation();
 
     return (
-        <MainContainer headerBackgroundDefault={true}>
+        <MainContainer
+            title={t("contactsPage:seo.title")}
+            description={t("contactsPage:seo.description")}
+            keywords={t("contactsPage:seo.keywords")}
+            headerBackgroundDefault={true}
+        >
             <div className={"minusHeader"}>
                 <HeaderSection
                     title={t("contactsPage:header.title")}

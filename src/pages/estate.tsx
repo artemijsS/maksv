@@ -53,7 +53,11 @@ export default function Estate() {
 
 
     return (
-        <MainContainer>
+        <MainContainer
+            title={t("estatePage:seo.title")}
+            description={t("estatePage:seo.description")}
+            keywords={t("estatePage:seo.keywords")}
+        >
             <HeaderSection />
             <FilterSection onFilterSubmit={(filter: Filter) => {setFilter(filter); setPagination({...pagination, page: 0})}}/>
             <Estates estate={estates} loading={loading} ref={estatesSectionRef}/>

@@ -15,7 +15,12 @@ export default function Evaluation() {
     const { t } = useTranslation();
 
     return (
-        <MainContainer headerBackgroundDefault={true}>
+        <MainContainer
+            title={t("constructionPage:seo.title")}
+            description={t("constructionPage:seo.description")}
+            keywords={t("constructionPage:seo.keywords")}
+            headerBackgroundDefault={true}
+        >
             <div className={"minusHeader"}>
                 <HeaderSection />
                 <SliderConstruction />

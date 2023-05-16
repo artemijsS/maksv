@@ -18,7 +18,12 @@ export default function Evaluation() {
     const { t } = useTranslation();
 
     return (
-        <MainContainer headerBackgroundDefault={true}>
+        <MainContainer
+            title={t("evaluationPage:seo.title")}
+            description={t("evaluationPage:seo.description")}
+            keywords={t("evaluationPage:seo.keywords")}
+            headerBackgroundDefault={true}
+        >
             <div className={"minusHeader"}>
                 <HeaderSection
                     title={t("evaluationPage:header.section.title")}

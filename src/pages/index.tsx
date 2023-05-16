@@ -20,7 +20,11 @@ export default function Home({ estate }: HomeProps) {
     const { t } = useTranslation();
 
     return (
-        <MainContainer>
+        <MainContainer
+            title={t("homePage:seo.title")}
+            description={t("homePage:seo.description")}
+            keywords={t("homePage:seo.keywords")}
+        >
             <SliderSection data={estate}/>
             <SliderAboutUs />
             <InfoSection />
