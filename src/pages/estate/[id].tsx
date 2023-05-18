@@ -17,9 +17,14 @@ interface EstatePageProps {
 
 export default function EstatePage({ estate, googleApi }: EstatePageProps) {
 
+    const { i18n } = useTranslation();
 
     return (
-        <MainContainer headerBackgroundDefault={true}>
+        <MainContainer
+            title={`${estate.name[i18n.language]} | Maksv`}
+            description={estate.description[i18n.language]}
+            headerBackgroundDefault={true}
+        >
             <div className={"minusHeader"}>
                 <HeaderSection estate={estate} />
                 <ObjectSection estate={estate} />
